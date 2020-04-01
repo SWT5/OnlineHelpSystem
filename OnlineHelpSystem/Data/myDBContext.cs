@@ -20,8 +20,8 @@ namespace OnlineHelpSystem.Data
             modelBuilder.Entity<Teacher>().HasKey(a  => new { a.name});
             modelBuilder.Entity<Teacher>() //One to many Exercises
                 .HasMany<Exercise>(a => a.Exercises)
-                .WithOne(r => r.Teachers)
-                .HasForeignKey(r  =>  r.name);
+                .WithOne(r => r.Teacher)
+                .HasForeignKey(r  =>  r.Teacher);
             modelBuilder.Entity<Teacher>() // one to many Assigment
 
 
