@@ -29,7 +29,7 @@ namespace OnlineHelpSystem.Data
             //Course
             modelBuilder.Entity<Course>().HasKey(c => new {c.CourseId});
             modelBuilder.Entity<Course>() //one to many (Teacher)
-                
+                .HasMany<Teacher>()
                 
 
         }
