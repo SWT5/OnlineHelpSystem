@@ -21,7 +21,7 @@ namespace OnlineHelpSystem.Data
             modelBuilder.Entity<Teacher>() //One to many Exercises
                 .HasMany<Exercise>(t => t.Exercises)
                 .WithOne(r => r.Teacher)
-                .HasForeignKey(r  =>  r.Teacher.AuId);
+                .HasForeignKey(e  => new {e.Lecture, e.Number});
 
             /*modelBuilder.Entity<Teacher>() // one to many Assigment
                 .HasMany<Course>(t => t.Course)
