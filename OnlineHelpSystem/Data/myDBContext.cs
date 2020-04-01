@@ -45,7 +45,10 @@ namespace OnlineHelpSystem.Data
                 .HasMany<Assignment>(c => c.Assignments)
                 .WithOne(a => a.Course)
                 .HasForeignKey(a => a.AssignmentId);
-
+            modelBuilder.Entity<Course>()
+                .HasMany<Exercise>(c => c.Exercises)
+                .WithOne(e => e.Course)
+                .HasForeignKey(e => new {e.Lecture, e.Number});
 
             //StudentCourse (many to many) Shadowtabel
             modelBuilder.Entity<StudentCourse>()
@@ -56,6 +59,7 @@ namespace OnlineHelpSystem.Data
                 .HasOne(sc => sc.Course)
                 .WithMany(c => c.StudentCourses)
                 .HasForeignKey(sc => sc.StudentCourseId);
+
 
             //Student
             modelBuilder.Entity<Student>().HasKey(s => new {s.AuId});
@@ -80,10 +84,6 @@ namespace OnlineHelpSystem.Data
             
             //Exercise
             modelBuilder.Entity<Exercise>().HasKey(e => new {e.Lecture, e.Number});
-
-            //skal mann definere relation fra mange til 1, når man har defineret relation 1 til mange??
-            //modelBuilder.Entity<Exercise>()
-            //    .HasOne<Student>()
         }
     }
 }

@@ -11,5 +11,6 @@ namespace OnlineHelpSystem.Models
         public string HelpWhere { get; set; }
         public Teacher Teacher;
         public Student Student;
+        public Course Course;
     }
 }
