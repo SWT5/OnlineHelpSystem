@@ -30,8 +30,17 @@ namespace OnlineHelpSystem.Data
             modelBuilder.Entity<Course>().HasKey(c => new {c.CourseId});
             modelBuilder.Entity<Course>() //one to many (Teacher)
                 .HasMany<Teacher>()
-                
 
+
+            //StudentCourse (many to many) Shadowtabel
+            modelBuilder.Entity<StudentCourse>()
+                .HasOne(st => st.Student)
+                .WithMany(s => s.StudentCourses)
+                .HasForeignKey(st => st.StudentAuId);
+            modelBuilder.Entity<StudentCourse>()
+                .HasOne(st => st.Course)
+                .WithMany(c => c.StudentCourses)
+                .HasForeignKey(st => st.StudentCourseId);
         }
     }
 }
