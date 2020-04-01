@@ -6,6 +6,6 @@ namespace OnlineHelpSystem.Models
 {
     public class Assignment
     {
-
+        public Course Course { get; set; }
     }
 }
