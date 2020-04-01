@@ -40,8 +40,6 @@ namespace OnlineHelpSystem.Data
                 .WithOne(a => a.Course)
                 .HasForeignKey(a => a.AssignmentId);
 
-                .HasMany<Teacher>()
-                
 
             //StudentCourse (many to many) Shadowtabel
             modelBuilder.Entity<StudentCourse>()
