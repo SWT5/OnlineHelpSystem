@@ -65,10 +65,17 @@ namespace OnlineHelpSystem.Data
                 .HasForeignKey(e => new {e.Lecture, e.Number });
 
             //Exercise
-
-
+            modelBuilder.Entity<Exercise>().HasKey(e => new {e.Lecture, e.Number});
             
+            //skal mann definere relation fra mange til 1, når man har defineret relation 1 til mange??
+            //modelBuilder.Entity<Exercise>()
+            //    .HasOne<Student>()
+
+
             //Assignment
+            modelBuilder.Entity<Assignment>().HasKey(a => new {a.AssignmentId});
+            
+
         }
     }
 }
