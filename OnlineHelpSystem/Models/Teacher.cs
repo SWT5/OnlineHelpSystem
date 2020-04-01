@@ -6,7 +6,7 @@ namespace OnlineHelpSystem.Models
 {
     public class Teacher
     {
-        public string name { get;  set; }
+        public string Name { get;  set; }
         public string AuId { get;  set; }
 
 
@@ -30,7 +30,7 @@ namespace OnlineHelpSystem.Models
                 Exercises = string.Join(";", Exercises);
             }
 
-            return string.Format("Teacher ({0},{1},{2},{3})", name, AuId, Exercises, Assigments);
+            return string.Format("Teacher ({0},{1},{2},{3})", Name, AuId, Exercises, Assigments);
         }
     }
 }
