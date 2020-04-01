@@ -57,6 +57,7 @@ namespace OnlineHelpSystem.Data
                 .WithMany(c => c.StudentCourses)
                 .HasForeignKey(sc => sc.StudentCourseId);
 
+
             //Student
             modelBuilder.Entity<Student>().HasKey(s => new {s.AuId});
             modelBuilder.Entity<Student>()
