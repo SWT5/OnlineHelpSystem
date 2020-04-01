@@ -20,10 +20,16 @@ namespace OnlineHelpSystem.Data
             modelBuilder.Entity<Teacher>().HasKey(t  => new { t.AuId});
             modelBuilder.Entity<Teacher>() //One to many Exercises
                 .HasMany<Exercise>(t => t.Exercises)
-                .WithOne(r => r.Teacher)
+                .WithOne(e => e.Teacher)
                 .HasForeignKey(e  => new {e.Lecture, e.Number});
+            modelBuilder.Entity<Teacher>()
+                .HasMany<Assignment>(t => t.Assignments) //One-to-many
+                .WithOne(a => a.Teacher)
+                .HasForeignKey(a => a.AssignmentId);
 
-            /*modelBuilder.Entity<Teacher>() // one to many Assigment
+            
+            /*  Skal man definer mange til en relationer.
+                modelBuilder.Entity<Teacher>() // one to many Assigment
                 .HasMany<Course>(t => t.Course)
                 .WithOne(c=> c.CourseId)
                 .HasForeignKey(c=>c.Teachers.);
