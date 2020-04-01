@@ -64,18 +64,26 @@ namespace OnlineHelpSystem.Data
                 .WithOne(e => e.Student)
                 .HasForeignKey(e => new {e.Lecture, e.Number });
 
-            //Exercise
-            modelBuilder.Entity<Exercise>().HasKey(e => new {e.Lecture, e.Number});
-            
-            //skal mann definere relation fra mange til 1, når man har defineret relation 1 til mange??
-            //modelBuilder.Entity<Exercise>()
-            //    .HasOne<Student>()
-
+            //StudentAssignment
+            modelBuilder.Entity<StudentAssignment>()
+                .HasOne(sa => sa.Student)
+                .WithMany(s => s.StudentAssignments)
+                .HasForeignKey(sa => sa.StudentAuId);
+            modelBuilder.Entity<StudentAssignment>()
+                .HasOne(sa => sa.Assignment)
+                .WithMany(a => a.StudentAssignments)
+                .HasForeignKey(sa => sa.AssignmentId);
 
             //Assignment
             modelBuilder.Entity<Assignment>().HasKey(a => new {a.AssignmentId});
             
+            
+            //Exercise
+            modelBuilder.Entity<Exercise>().HasKey(e => new {e.Lecture, e.Number});
 
+            //skal mann definere relation fra mange til 1, når man har defineret relation 1 til mange??
+            //modelBuilder.Entity<Exercise>()
+            //    .HasOne<Student>()
         }
     }
 }

@@ -14,5 +14,6 @@ namespace OnlineHelpSystem.Models
         public List<Exercise> Exercises { get; set; }
         public List<Course> Courses { get; set; }       //ask teacher here
         public List<StudentCourse> StudentCourses { get; set; }
+        public List<StudentAssignment> StudentAssignments { get; set; }
     }
 }
