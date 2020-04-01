@@ -12,6 +12,8 @@ namespace OnlineHelpSystem.Models
         public List<Exercise> Exercises { get;  set; }
         public List<Assignment> Assignments { get; set; }
 
+        public Course Course { get; set; }
+
         /*Make prints out*/
         public override string ToString()
         {
