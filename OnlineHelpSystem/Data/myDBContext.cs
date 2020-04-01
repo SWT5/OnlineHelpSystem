@@ -67,6 +67,9 @@ namespace OnlineHelpSystem.Data
 
 
             //Assignment
+            modelBuilder.Entity<Assignment>().HasKey(a => new {a.AssignmentId});
+            
+
         }
     }
 }
