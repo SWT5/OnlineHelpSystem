@@ -32,13 +32,13 @@ namespace OnlineHelpSystem.Data
 
             //StudentCourse (many to many) Shadowtabel
             modelBuilder.Entity<StudentCourse>()
-                .HasOne(st => st.Student)
+                .HasOne(sc => sc.Student)
                 .WithMany(s => s.StudentCourses)
-                .HasForeignKey(st => st.StudentAuId);
+                .HasForeignKey(sc => sc.StudentAuId);
             modelBuilder.Entity<StudentCourse>()
-                .HasOne(st => st.Course)
+                .HasOne(sc => sc.Course)
                 .WithMany(c => c.StudentCourses)
-                .HasForeignKey(st => st.StudentCourseId);
+                .HasForeignKey(sc => sc.StudentCourseId);
         }
     }
 }
