@@ -9,10 +9,12 @@ namespace OnlineHelpSystem.Models
         public string name { get;  set; }
         public string AuId { get;  set; }
 
-        public List<Exercise> Exercises { get;  set; }
-        public List<Assignment> Assignments { get; set; }
 
+        /*Relationerne*/
+        public List<Assignment> Assignments { get; set; }
+        public List<Exercise> Exercises { get;  set; }
         public Course Course { get; set; }
+
 
         /*Make prints out*/
         public override string ToString()

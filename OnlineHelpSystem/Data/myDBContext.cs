@@ -17,14 +17,12 @@ namespace OnlineHelpSystem.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Teacher
-            modelBuilder.Entity<Teacher>().HasKey(a  => new { a.name});
+            modelBuilder.Entity<Teacher>().HasKey(t  => new { t.name});
             modelBuilder.Entity<Teacher>() //One to many Exercises
-                .HasMany<Exercise>(a => a.Exercises)
+                .HasMany<Exercise>(t => t.Exercises)
                 .WithOne(r => r.Teacher)
                 .HasForeignKey(r  =>  r.Teacher.AuId);
             modelBuilder.Entity<Teacher>() // one to many Assigment
-
-
 
             //Course
             modelBuilder.Entity<Course>().HasKey(c => new {c.CourseId});

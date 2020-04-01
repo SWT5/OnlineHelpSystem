@@ -9,6 +9,7 @@ namespace OnlineHelpSystem.Models
     {
         public string AssignmentName { get; set; }
         public string AssignmentNumber { get; set; }
+        public int AssignmentId { get; set; }
         //relations
         public Course Course { get; set; }
         public Teacher Teacher { get; set; }
