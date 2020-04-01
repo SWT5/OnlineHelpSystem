@@ -7,7 +7,7 @@ namespace OnlineHelpSystem.Models
     public class Course
     {
         public string Name { get; set; }
-        public int CourseId { get; set; }
+        public int CourseId { get; set; } //Primary key
         public int Semester { get; set; }
 
         //relationships
