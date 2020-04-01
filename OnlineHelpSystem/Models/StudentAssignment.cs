@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace OnlineHelpSystem.Models
+﻿namespace OnlineHelpSystem.Models
 {
-    class StudentAssignment
+    public class StudentAssignment
     {
+        public Student Student { get; set; }
+        public Assignment Assignment { get; set; }
+        public string AssignmentName { get; set; }
+        public int AssignmentNumber { get; set; }
     }
 }

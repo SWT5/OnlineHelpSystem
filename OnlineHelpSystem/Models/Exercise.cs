@@ -6,8 +6,8 @@ namespace OnlineHelpSystem.Models
 {
     public class Exercise
     {
-        public int number { get; set; }
-        public string lecture { get; set; }
-        public string helpWhere { get; set; }
+        public int Number { get; set; }
+        public string Lecture { get; set; }
+        public string HelpWhere { get; set; }
     }
 }
