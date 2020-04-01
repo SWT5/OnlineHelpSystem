@@ -14,16 +14,15 @@ namespace OnlineHelpSystem.Data
             optionsBuilder.UseSqlServer("Data Source=127.0.0.1,1433;Database=BookStore2;User ID=SA;Password=SecurePassword1!;");
         }
 
-        public DbSet<Teacher> Teacher { get;  set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Teacher
             modelBuilder.Entity<Teacher>().HasKey(a  => new { a.name});
-            modelBuilder.Entity<Teacher>() //One to many
+            modelBuilder.Entity<Teacher>() //One to many Exercises
                 .HasMany<Exercise>(a => a.Exercises)
-                .WithOne(r => r.Teacher)
+                .WithOne(r => r.Teachers)
                 .HasForeignKey(r  =>  r.name);
+            modelBuilder.Entity<Teacher>() // one to many Assigment
 
 
 
