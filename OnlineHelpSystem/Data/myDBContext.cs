@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
-
+using OnlineHelpSystem.Models;
 
 
 namespace OnlineHelpSystem.Data
@@ -24,6 +24,14 @@ namespace OnlineHelpSystem.Data
                 .HasMany<Exercise>(a => a.Exercises)
                 .WithOne(r => r.Teacher)
                 .HasForeignKey(r  =>  r.name);
+
+
+
+            //Course
+            modelBuilder.Entity<Course>().HasKey(c => new {c.CourseId});
+            modelBuilder.Entity<Course>() //one to many (Teacher)
+                
+                
 
         }
     }
