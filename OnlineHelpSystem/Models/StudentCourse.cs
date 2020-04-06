@@ -6,7 +6,7 @@ namespace OnlineHelpSystem.Models
 {
     public class StudentCourse
     {
-        public int StudentCourseId { get; set; }
+        public string StudentCourseId { get; set; }
         public bool Active { get; set; }
 
         public int Semester { get; set; }
@@ -17,7 +17,7 @@ namespace OnlineHelpSystem.Models
 
         public Course Course { get; set; }
 
-        public int CourseId { get; set; }
+        public string CourseId { get; set; }
 
 
     }

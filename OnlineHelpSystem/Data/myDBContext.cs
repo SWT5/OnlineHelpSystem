@@ -11,7 +11,7 @@ namespace OnlineHelpSystem.Data
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=127.0.0.1,1433;Database=BookStore2;User ID=SA;Password=SecurePassword1!;");
+            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=OnlineHelpSystem;Trusted_Connection=True;MultipleActiveResultSets=true");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -20,20 +20,12 @@ namespace OnlineHelpSystem.Data
             modelBuilder.Entity<Teacher>().HasKey(t  => new { t.AuId});
             modelBuilder.Entity<Teacher>() //One to many Exercises
                 .HasMany<Exercise>(t => t.Exercises)
-                .WithOne(e => e.Teacher)
+                .WithOne(e=> e.Teacher)
                 .HasForeignKey(e  => new {e.Lecture, e.Number});
             modelBuilder.Entity<Teacher>()
                 .HasMany<Assignment>(t => t.Assignments) //One-to-many
                 .WithOne(a => a.Teacher)
                 .HasForeignKey(a => a.AssignmentId);
-
-            
-            /*  Skal man definer mange til en relationer.
-                modelBuilder.Entity<Teacher>() // one to many Assigment
-                .HasMany<Course>(t => t.Course)
-                .WithOne(c=> c.CourseId)
-                .HasForeignKey(c=>c.Teachers.);
-                */
 
             //Course
             modelBuilder.Entity<Course>().HasKey(c => new {c.CourseId});
@@ -69,6 +61,7 @@ namespace OnlineHelpSystem.Data
                 .HasForeignKey(e => new {e.Lecture, e.Number });
 
             //StudentAssignment
+            modelBuilder.Entity<StudentAssignment>().HasKey(sa => new {sa.StudentAssignmentId});
             modelBuilder.Entity<StudentAssignment>()
                 .HasOne(sa => sa.Student)
                 .WithMany(s => s.StudentAssignments)
@@ -85,5 +78,8 @@ namespace OnlineHelpSystem.Data
             //Exercise
             modelBuilder.Entity<Exercise>().HasKey(e => new {e.Lecture, e.Number});
         }
+
+        
+
     }
 }

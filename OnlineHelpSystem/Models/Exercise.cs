@@ -9,8 +9,9 @@ namespace OnlineHelpSystem.Models
         public int Number { get; set; }     // primary key with Lecture
         public string Lecture { get; set; } // primary key with number
         public string HelpWhere { get; set; }
-        public Teacher Teacher;
-        public Student Student;
-        public Course Course;
+        
+        public Teacher Teacher { get; set; }
+        public Student Student { get; set; }
+        public Course Course { get; set; }
     }
 }

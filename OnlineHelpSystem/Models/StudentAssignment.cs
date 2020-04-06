@@ -6,6 +6,8 @@
         public Assignment Assignment { get; set; }
         public string StudentAuId { get; set; }
         
-        public int AssignmentId { get; set; }
+        public string AssignmentId { get; set; }
+
+        public string StudentAssignmentId { get; set; }
     }
 }

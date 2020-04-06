@@ -1,4 +1,6 @@
 ﻿using System;
+using OnlineHelpSystem.Models;
+using OnlineHelpSystem.Data;
 
 namespace OnlineHelpSystem
 {
@@ -7,7 +9,12 @@ namespace OnlineHelpSystem
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var seedData = new SeedData();
+
+            
         }
+
+
+       
     }
 }
