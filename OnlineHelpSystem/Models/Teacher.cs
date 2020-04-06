@@ -8,7 +8,7 @@ namespace OnlineHelpSystem.Models
     {
         public string Name { get;  set; }
         public string AuId { get;  set; }
-
+        public int CourseFKId { get; set; }
 
         /*Relationerne*/
         public List<Assignment> Assignments { get; set; }
