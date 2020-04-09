@@ -9,6 +9,15 @@ namespace OnlineHelpSystem.Data
 {
     class myDBContext : DbContext
     {
+        public DbSet<Student> Students { get; set; }
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<Assignment> Assignments { get; set; }
+
+        public DbSet<Exercise> Exercises { get; set; }
+
+        public DbSet<Teacher> Teachers { get; set; }
+        
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=OnlineHelpSystem;Trusted_Connection=True;MultipleActiveResultSets=true");
