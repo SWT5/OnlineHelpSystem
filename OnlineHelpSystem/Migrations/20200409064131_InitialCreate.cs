@@ -10,7 +10,8 @@ namespace OnlineHelpSystem.Migrations
                 name: "Course",
                 columns: table => new
                 {
-                    CourseId = table.Column<string>(nullable: false),
+                    CourseId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true),
                     Semester = table.Column<int>(nullable: false)
                 },
@@ -36,14 +37,15 @@ namespace OnlineHelpSystem.Migrations
                 columns: table => new
                 {
                     AuId = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    CourseFKId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Teacher", x => x.AuId);
                     table.ForeignKey(
-                        name: "FK_Teacher_Course_AuId",
-                        column: x => x.AuId,
+                        name: "FK_Teacher_Course_CourseFKId",
+                        column: x => x.CourseFKId,
                         principalTable: "Course",
                         principalColumn: "CourseId",
                         onDelete: ReferentialAction.Cascade);
@@ -54,51 +56,54 @@ namespace OnlineHelpSystem.Migrations
                 columns: table => new
                 {
                     StudentCourseId = table.Column<string>(nullable: false),
+                    CourseFKId = table.Column<int>(nullable: false),
                     Active = table.Column<bool>(nullable: false),
                     Semester = table.Column<int>(nullable: false),
-                    StudentAuId = table.Column<string>(nullable: true),
-                    CourseId = table.Column<string>(nullable: true)
+                    StudentFKAuId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_StudentCourse", x => x.StudentCourseId);
                     table.ForeignKey(
-                        name: "FK_StudentCourse_Student_StudentAuId",
-                        column: x => x.StudentAuId,
-                        principalTable: "Student",
-                        principalColumn: "AuId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_StudentCourse_Course_StudentCourseId",
-                        column: x => x.StudentCourseId,
+                        name: "FK_StudentCourse_Course_CourseFKId",
+                        column: x => x.CourseFKId,
                         principalTable: "Course",
                         principalColumn: "CourseId",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_StudentCourse_Student_StudentFKAuId",
+                        column: x => x.StudentFKAuId,
+                        principalTable: "Student",
+                        principalColumn: "AuId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Assignment",
                 columns: table => new
                 {
-                    AssignmentId = table.Column<string>(nullable: false),
+                    AssignmentId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     AssignmentName = table.Column<string>(nullable: true),
-                    AssignmentNumber = table.Column<string>(nullable: true)
+                    AssignmentNumber = table.Column<string>(nullable: true),
+                    TeacherFKId = table.Column<string>(nullable: true),
+                    CourseFKId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Assignment", x => x.AssignmentId);
                     table.ForeignKey(
-                        name: "FK_Assignment_Teacher_AssignmentId",
-                        column: x => x.AssignmentId,
-                        principalTable: "Teacher",
-                        principalColumn: "AuId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Assignment_Course_AssignmentId",
-                        column: x => x.AssignmentId,
+                        name: "FK_Assignment_Course_CourseFKId",
+                        column: x => x.CourseFKId,
                         principalTable: "Course",
                         principalColumn: "CourseId",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Assignment_Teacher_TeacherFKId",
+                        column: x => x.TeacherFKId,
+                        principalTable: "Teacher",
+                        principalColumn: "AuId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -108,28 +113,28 @@ namespace OnlineHelpSystem.Migrations
                     Number = table.Column<int>(nullable: false),
                     Lecture = table.Column<string>(nullable: false),
                     HelpWhere = table.Column<string>(nullable: true),
-                    CourseExerciseId = table.Column<string>(nullable: true),
-                    StudentExerciseId = table.Column<string>(nullable: true),
-                    TeacherExerciseId = table.Column<string>(nullable: true)
+                    CourseFKId = table.Column<int>(nullable: false),
+                    StudentFKId = table.Column<string>(nullable: true),
+                    TeacherFKId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Exercise", x => new { x.Lecture, x.Number });
                     table.ForeignKey(
-                        name: "FK_Exercise_Course_CourseExerciseId",
-                        column: x => x.CourseExerciseId,
+                        name: "FK_Exercise_Course_CourseFKId",
+                        column: x => x.CourseFKId,
                         principalTable: "Course",
                         principalColumn: "CourseId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Exercise_Student_StudentExerciseId",
-                        column: x => x.StudentExerciseId,
+                        name: "FK_Exercise_Student_StudentFKId",
+                        column: x => x.StudentFKId,
                         principalTable: "Student",
                         principalColumn: "AuId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Exercise_Teacher_TeacherExerciseId",
-                        column: x => x.TeacherExerciseId,
+                        name: "FK_Exercise_Teacher_TeacherFKId",
+                        column: x => x.TeacherFKId,
                         principalTable: "Teacher",
                         principalColumn: "AuId",
                         onDelete: ReferentialAction.Restrict);
@@ -140,55 +145,75 @@ namespace OnlineHelpSystem.Migrations
                 columns: table => new
                 {
                     StudentAssignmentId = table.Column<string>(nullable: false),
-                    StudentAuId = table.Column<string>(nullable: true),
-                    AssignmentId = table.Column<string>(nullable: true)
+                    StudentFKAuId = table.Column<string>(nullable: true),
+                    AssignmentFKId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_StudentAssignment", x => x.StudentAssignmentId);
                     table.ForeignKey(
-                        name: "FK_StudentAssignment_Assignment_AssignmentId",
-                        column: x => x.AssignmentId,
+                        name: "FK_StudentAssignment_Assignment_AssignmentFKId",
+                        column: x => x.AssignmentFKId,
                         principalTable: "Assignment",
                         principalColumn: "AssignmentId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_StudentAssignment_Student_StudentAuId",
-                        column: x => x.StudentAuId,
+                        name: "FK_StudentAssignment_Student_StudentFKAuId",
+                        column: x => x.StudentFKAuId,
                         principalTable: "Student",
                         principalColumn: "AuId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Exercise_CourseExerciseId",
-                table: "Exercise",
-                column: "CourseExerciseId");
+                name: "IX_Assignment_CourseFKId",
+                table: "Assignment",
+                column: "CourseFKId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Exercise_StudentExerciseId",
-                table: "Exercise",
-                column: "StudentExerciseId");
+                name: "IX_Assignment_TeacherFKId",
+                table: "Assignment",
+                column: "TeacherFKId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Exercise_TeacherExerciseId",
+                name: "IX_Exercise_CourseFKId",
                 table: "Exercise",
-                column: "TeacherExerciseId");
+                column: "CourseFKId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StudentAssignment_AssignmentId",
+                name: "IX_Exercise_StudentFKId",
+                table: "Exercise",
+                column: "StudentFKId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Exercise_TeacherFKId",
+                table: "Exercise",
+                column: "TeacherFKId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StudentAssignment_AssignmentFKId",
                 table: "StudentAssignment",
-                column: "AssignmentId");
+                column: "AssignmentFKId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StudentAssignment_StudentAuId",
+                name: "IX_StudentAssignment_StudentFKAuId",
                 table: "StudentAssignment",
-                column: "StudentAuId");
+                column: "StudentFKAuId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StudentCourse_StudentAuId",
+                name: "IX_StudentCourse_CourseFKId",
                 table: "StudentCourse",
-                column: "StudentAuId");
+                column: "CourseFKId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StudentCourse_StudentFKAuId",
+                table: "StudentCourse",
+                column: "StudentFKAuId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Teacher_CourseFKId",
+                table: "Teacher",
+                column: "CourseFKId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

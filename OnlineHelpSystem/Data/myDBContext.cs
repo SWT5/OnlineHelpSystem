@@ -76,10 +76,10 @@ namespace OnlineHelpSystem.Data
                 .HasForeignKey(sa => sa.AssignmentFKId);
 
             //Assignment
-            modelBuilder.Entity<Assignment>().HasKey(a => new {a.AssignmentId});
-            
-            
-           
+            modelBuilder.Entity<Assignment>().HasKey(a => new { a.AssignmentId });
+
+
+
         }
 
         

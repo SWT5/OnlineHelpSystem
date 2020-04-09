@@ -9,7 +9,7 @@ using OnlineHelpSystem.Data;
 namespace OnlineHelpSystem.Migrations
 {
     [DbContext(typeof(myDBContext))]
-    [Migration("20200406140253_InitialCreate")]
+    [Migration("20200409064131_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,8 +22,10 @@ namespace OnlineHelpSystem.Migrations
 
             modelBuilder.Entity("OnlineHelpSystem.Models.Assignment", b =>
                 {
-                    b.Property<string>("AssignmentId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("AssignmentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AssignmentName")
                         .HasColumnType("nvarchar(max)");
@@ -31,15 +33,27 @@ namespace OnlineHelpSystem.Migrations
                     b.Property<string>("AssignmentNumber")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("CourseFKId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TeacherFKId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("AssignmentId");
+
+                    b.HasIndex("CourseFKId");
+
+                    b.HasIndex("TeacherFKId");
 
                     b.ToTable("Assignment");
                 });
 
             modelBuilder.Entity("OnlineHelpSystem.Models.Course", b =>
                 {
-                    b.Property<string>("CourseId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("CourseId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -60,25 +74,25 @@ namespace OnlineHelpSystem.Migrations
                     b.Property<int>("Number")
                         .HasColumnType("int");
 
-                    b.Property<string>("CourseExerciseId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("CourseFKId")
+                        .HasColumnType("int");
 
                     b.Property<string>("HelpWhere")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("StudentExerciseId")
+                    b.Property<string>("StudentFKId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("TeacherExerciseId")
+                    b.Property<string>("TeacherFKId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Lecture", "Number");
 
-                    b.HasIndex("CourseExerciseId");
+                    b.HasIndex("CourseFKId");
 
-                    b.HasIndex("StudentExerciseId");
+                    b.HasIndex("StudentFKId");
 
-                    b.HasIndex("TeacherExerciseId");
+                    b.HasIndex("TeacherFKId");
 
                     b.ToTable("Exercise");
                 });
@@ -101,17 +115,17 @@ namespace OnlineHelpSystem.Migrations
                     b.Property<string>("StudentAssignmentId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("AssignmentId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("AssignmentFKId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("StudentAuId")
+                    b.Property<string>("StudentFKAuId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("StudentAssignmentId");
 
-                    b.HasIndex("AssignmentId");
+                    b.HasIndex("AssignmentFKId");
 
-                    b.HasIndex("StudentAuId");
+                    b.HasIndex("StudentFKAuId");
 
                     b.ToTable("StudentAssignment");
                 });
@@ -124,18 +138,20 @@ namespace OnlineHelpSystem.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
-                    b.Property<string>("CourseId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("CourseFKId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Semester")
                         .HasColumnType("int");
 
-                    b.Property<string>("StudentAuId")
+                    b.Property<string>("StudentFKAuId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("StudentCourseId");
 
-                    b.HasIndex("StudentAuId");
+                    b.HasIndex("CourseFKId");
+
+                    b.HasIndex("StudentFKAuId");
 
                     b.ToTable("StudentCourse");
                 });
@@ -145,73 +161,80 @@ namespace OnlineHelpSystem.Migrations
                     b.Property<string>("AuId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int>("CourseFKId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("AuId");
+
+                    b.HasIndex("CourseFKId");
 
                     b.ToTable("Teacher");
                 });
 
             modelBuilder.Entity("OnlineHelpSystem.Models.Assignment", b =>
                 {
-                    b.HasOne("OnlineHelpSystem.Models.Teacher", "Teacher")
+                    b.HasOne("OnlineHelpSystem.Models.Course", "Course")
                         .WithMany("Assignments")
-                        .HasForeignKey("AssignmentId")
+                        .HasForeignKey("CourseFKId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("OnlineHelpSystem.Models.Course", "Course")
+                    b.HasOne("OnlineHelpSystem.Models.Teacher", "Teacher")
                         .WithMany("Assignments")
-                        .HasForeignKey("AssignmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TeacherFKId");
                 });
 
             modelBuilder.Entity("OnlineHelpSystem.Models.Exercise", b =>
                 {
                     b.HasOne("OnlineHelpSystem.Models.Course", "Course")
                         .WithMany("Exercises")
-                        .HasForeignKey("CourseExerciseId");
+                        .HasForeignKey("CourseFKId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("OnlineHelpSystem.Models.Student", "Student")
                         .WithMany("Exercises")
-                        .HasForeignKey("StudentExerciseId");
+                        .HasForeignKey("StudentFKId");
 
                     b.HasOne("OnlineHelpSystem.Models.Teacher", "Teacher")
                         .WithMany("Exercises")
-                        .HasForeignKey("TeacherExerciseId");
+                        .HasForeignKey("TeacherFKId");
                 });
 
             modelBuilder.Entity("OnlineHelpSystem.Models.StudentAssignment", b =>
                 {
                     b.HasOne("OnlineHelpSystem.Models.Assignment", "Assignment")
                         .WithMany("StudentAssignments")
-                        .HasForeignKey("AssignmentId");
+                        .HasForeignKey("AssignmentFKId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("OnlineHelpSystem.Models.Student", "Student")
                         .WithMany("StudentAssignments")
-                        .HasForeignKey("StudentAuId");
+                        .HasForeignKey("StudentFKAuId");
                 });
 
             modelBuilder.Entity("OnlineHelpSystem.Models.StudentCourse", b =>
                 {
-                    b.HasOne("OnlineHelpSystem.Models.Student", "Student")
-                        .WithMany("StudentCourses")
-                        .HasForeignKey("StudentAuId");
-
                     b.HasOne("OnlineHelpSystem.Models.Course", "Course")
                         .WithMany("StudentCourses")
-                        .HasForeignKey("StudentCourseId")
+                        .HasForeignKey("CourseFKId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("OnlineHelpSystem.Models.Student", "Student")
+                        .WithMany("StudentCourses")
+                        .HasForeignKey("StudentFKAuId");
                 });
 
             modelBuilder.Entity("OnlineHelpSystem.Models.Teacher", b =>
                 {
                     b.HasOne("OnlineHelpSystem.Models.Course", "Course")
                         .WithMany("Teachers")
-                        .HasForeignKey("AuId")
+                        .HasForeignKey("CourseFKId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
