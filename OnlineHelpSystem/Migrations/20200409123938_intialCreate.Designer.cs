@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineHelpSystem.Data;
 
 namespace OnlineHelpSystem.Migrations
 {
     [DbContext(typeof(myDBContext))]
-    partial class myDBContextModelSnapshot : ModelSnapshot
+    [Migration("20200409123938_intialCreate")]
+    partial class intialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,18 +61,6 @@ namespace OnlineHelpSystem.Migrations
                     b.HasKey("CourseId");
 
                     b.ToTable("Courses");
-
-                    b.HasData(
-                        new
-                        {
-                            CourseId = 111,
-                            Name = "DAB"
-                        },
-                        new
-                        {
-                            CourseId = 222,
-                            Name = "GUI"
-                        });
                 });
 
             modelBuilder.Entity("OnlineHelpSystem.Models.Exercise", b =>
@@ -115,23 +105,6 @@ namespace OnlineHelpSystem.Migrations
                     b.HasKey("AuId");
 
                     b.ToTable("Students");
-
-                    b.HasData(
-                        new
-                        {
-                            AuId = "1",
-                            Name = "Thanh"
-                        },
-                        new
-                        {
-                            AuId = "2",
-                            Name = "Nikolaj"
-                        },
-                        new
-                        {
-                            AuId = "3",
-                            Name = "Mads"
-                        });
                 });
 
             modelBuilder.Entity("OnlineHelpSystem.Models.StudentAssignment", b =>
@@ -196,26 +169,6 @@ namespace OnlineHelpSystem.Migrations
                     b.HasIndex("CourseFKId");
 
                     b.ToTable("Teachers");
-
-                    b.HasData(
-                        new
-                        {
-                            AuId = "123456",
-                            CourseFKId = 0,
-                            Name = "Jens"
-                        },
-                        new
-                        {
-                            AuId = "654321",
-                            CourseFKId = 0,
-                            Name = "Poul"
-                        },
-                        new
-                        {
-                            AuId = "246810",
-                            CourseFKId = 0,
-                            Name = "Susanne"
-                        });
                 });
 
             modelBuilder.Entity("OnlineHelpSystem.Models.Assignment", b =>

@@ -21,6 +21,8 @@ namespace OnlineHelpSystem.Data
             optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=OnlineHelpSystem;Trusted_Connection=True;MultipleActiveResultSets=true");
         }
 
+        
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Teacher
@@ -40,7 +42,7 @@ namespace OnlineHelpSystem.Data
             modelBuilder.Entity<Course>() //one to many (Teacher)
                 .HasMany<Teacher>(c => c.Teachers)
                 .WithOne(t => t.Course)
-                .HasForeignKey(t => t.CourseFKId);
+                .HasForeignKey(t => t.CourseFkId);
             modelBuilder.Entity<Course>()
                 .HasMany<Assignment>(c => c.Assignments)
                 .WithOne(a => a.Course)
@@ -87,6 +89,26 @@ namespace OnlineHelpSystem.Data
             modelBuilder.Entity<Assignment>().HasKey(a => new { a.AssignmentId });
 
 
+
+
+
+            // dummy data 
+            modelBuilder.Entity<Student>().HasData(
+                new Student { AuId = "1", Name = "Thanh" },
+                new Student { AuId = "2", Name = "Nikolaj" },
+                new Student{AuId= "3", Name="Mads"}
+            );
+
+            modelBuilder.Entity<Teacher>().HasData(
+                new Teacher {AuId = "123456", Name = "Jens" },
+                new Teacher {AuId = "654321", Name = "Poul"},
+                new Teacher {AuId = "246810", Name = "Susanne"}
+            );
+
+            modelBuilder.Entity<Course>().HasData(
+                new Course {Name = "DAB", CourseId = 111},
+                new Course {Name = "GUI", CourseId = 222}
+            );
         }
 
         

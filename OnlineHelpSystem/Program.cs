@@ -16,8 +16,8 @@ namespace OnlineHelpSystem
             using (var context = new myDBContext())
             {
                 System.Console.WriteLine("Usage");
-                System.Console.WriteLine("Insert: a(Author), b(Book), r(Review), p(PriceOffer)");
-                System.Console.WriteLine("Query: qb(Books), qa(Authors)");
+                System.Console.WriteLine("Insert: s(Student), t(Teacher), c(Course), e(Exercise HelpRequest), a(Assignment HelpRequest)");
+                System.Console.WriteLine("Lists: ls(Students), lt(Teachers), lc(Courses)");
                 System.Console.WriteLine("Exit: x");
 
                 while (true)
@@ -28,36 +28,51 @@ namespace OnlineHelpSystem
                     switch (line)
                     {
                         case "s":
-                            Student student = inputStudent(context);
+                            Student student = CreateStudent(context);
                             context.Students.Add(student);
                             context.SaveChanges();
                             break;
                         case "c":
-                            Course course = InputBook();
+                            Course course = CreateCourse(context);
                             context.Courses.Add(course);
                             context.SaveChanges();
                             break;
 
-                        case "p":
-                            Exercise exercise = InputPriceOffer();
-                            context.Students.Add();
+                        case "t":
+                            Teacher teacher = CreateTeacher(context);
+                            context.Teachers.Add(teacher);
+                            context.SaveChanges();
+                            break;
+
+                        case "e":
+                            Exercise exercise = CreateExeciseHelpRequest(context);
+                            context.Exercises.Add(exercise);
                             context.SaveChanges();
                             break;
 
                         case "a":
-                            Assignment assignment = InputReview(context);
+                            Assignment assignment = CreateAssignmentHelpRequest(context);
                             context.Assignments.Add(assignment);
                             context.SaveChanges();
                             break;
 
-                        case "qb":
-                            ListBooks(context);
+                        //case "he":
+                        //    Exercise exe = CreateExeciseHelpRequest(context);
+                        //    context.Exercises.Add(exercise);
+                        //    context.SaveChanges();
+                        //    break;
+
+                        case "ls":
+                            ListAllStudents(context);
                             break;
 
-                        case "qa":
-                            ListAuthors(context);
+                        case "lt":
+                            ListAllTeahers(context);
                             break;
 
+                        case "lc":
+                            ListAllCourses(context);
+                            break;
                         case "x":
                             System.Console.WriteLine("Exiting....");
                             return;
@@ -82,12 +97,19 @@ namespace OnlineHelpSystem
                 }
             }
 
-        private static void ListTeahers(myDBContext context)
+        private static void ListAllTeahers(myDBContext context)
         {
             List<Teacher> teachers = context.Teachers
                 .Include(t => t.Course).ThenInclude(c => c.Teachers).ToList();
 
             Console.WriteLine(string.Join(",", teachers));
+        }
+
+
+        private static void ListAllCourses(myDBContext context)
+        {
+            List<Course> courses = context.Courses
+                .Include(c => c.Assignments).ThenInclude(a => a.AssignmentName).ToList();
         }
 
         //given student print list of all students open help requests
@@ -124,8 +146,32 @@ namespace OnlineHelpSystem
             return context.Teachers.Where(s => s.AuId == auid).Single();
         }
 
+        // find Execise
+        private static Exercise findExercise(myDBContext context)
+        {
+            Console.WriteLine("Lecture: ");
+            string lecture = Console.ReadLine();
+
+            Console.WriteLine("Number: ");
+            int number = int.Parse(Console.ReadLine()); 
+
+            return context.Exercises.Where(e => e.Lecture == lecture && e.Number == number).Single();
+        }
+
+        //find Assignment
+        private static Assignment findAssignment(myDBContext context)
+        {
+            Console.WriteLine("AssignmentNumber: ");
+            string assignmentNumber = Console.ReadLine();
+
+            Console.WriteLine("AssignmentID: ");
+            int assignmentId = int.Parse(Console.ReadLine()); 
+
+            return context.Assignments.Where(a => a.AssignmentNumber == assignmentNumber && a.AssignmentId == assignmentId).Single();
+        }
+
         //create student
-        private static Student inputStudent(myDBContext context)
+        private static Student CreateStudent(myDBContext context)
         {
             Course course = findCourse(context); 
 
@@ -156,7 +202,7 @@ namespace OnlineHelpSystem
         }
 
         // create teacher
-        private static Teacher inpuTeacher(myDBContext context)
+        private static Teacher CreateTeacher(myDBContext context)
         {
             Console.WriteLine("Name: ");
             string name = Console.ReadLine(); 
@@ -173,7 +219,7 @@ namespace OnlineHelpSystem
 
 
         //create course
-        private static Course inputCourse(myDBContext context)
+        private static Course CreateCourse(myDBContext context)
         {
             Teacher teacher = findTeacher(context); // finder teacher der skal sættes til kurset
 
@@ -191,28 +237,55 @@ namespace OnlineHelpSystem
 
             if (teacher != null)
             {
-                course.Teachers = new List<Teacher>()
-                {
-                    new Teacher()
-                    {
-                        Course = course
-                    }
-                };
+                teacher.Course = course;
+                course.Teachers.Add(teacher);
             }
 
             return course;
         }
 
-        private static Exercise createHelpRequestExercise(myDBContext context)
+        //input assignment to couse
+        private static Assignment inputAssignment(myDBContext context)
         {
-            Student student = findStudent(context);
+            Course couse = findCourse(context);
+
+            Console.WriteLine("AssignmentName: ");
+            string assignmentName = Console.ReadLine();
+
+            Console.WriteLine("AssignmentNumber: ");
+            string assignmentNumber = Console.ReadLine();
+
+            Console.WriteLine("AssignmentID: ");
+            int assignmentId = int.Parse(Console.ReadLine());
+
+            Assignment assignment = new Assignment()
+            {
+                AssignmentId = assignmentId,
+                AssignmentNumber = assignmentNumber,
+                AssignmentName = assignmentName
+            };
+
+            if (couse != null)
+            {
+                assignment.Course = couse;
+                couse.Assignments.Add(assignment);
+                
+            }
+
+            return assignment;
+        }
+
+        // input execise to course
+        private static Exercise inputExercise(myDBContext context)
+        {
+            Course couse = findCourse(context);
 
             Console.WriteLine("Lecture: ");
             string lecture = Console.ReadLine();
 
             Console.WriteLine("Number: ");
             int number = int.Parse(Console.ReadLine());
-            
+
             Console.WriteLine("Help where?: ");
             string helpWhere = Console.ReadLine();
 
@@ -223,18 +296,115 @@ namespace OnlineHelpSystem
                 HelpWhere = helpWhere
             };
 
+            if (couse != null)
+            {
+                exercise.Course = couse;
+                couse.Exercises.Add(exercise);
+            }
+
+            return exercise;
+        }
+
+
+        private static Exercise CreateExeciseHelpRequest(myDBContext context)
+        {
+            Student student = findStudent(context);
+            Exercise exercise = inputExercise(context);
+
+            //Console.WriteLine("Lecture: ");
+            //string lecture = Console.ReadLine();
+
+            //Console.WriteLine("Number: ");
+            //int number = int.Parse(Console.ReadLine());
+            
+            //Console.WriteLine("Help where?: ");
+            //string helpWhere = Console.ReadLine();
+
+            //Exercise exercise = new Exercise()
+            //{
+            //    Lecture = lecture,
+            //    Number = number,
+            //    HelpWhere = helpWhere
+            //};
+
             if (student != null)
             {
-                //exercise.Student.Exercises = new List<Exercise>()
-                //{
-                //    new Exercise()
-                //    {
-                //        Student = student
-                //    }
-                //};
+                exercise.Student = student;
                 student.Exercises.Add(exercise);
             }
             return exercise;
+        }
+
+
+        // create assignmentHelpRequest
+        private static Assignment CreateAssignmentHelpRequest(myDBContext context)
+        {
+            Student student = findStudent(context);
+            Assignment assignment = inputAssignment(context);
+
+            //Console.WriteLine("AssignmentName: ");
+            //string assignmentName = Console.ReadLine(); 
+
+            //Console.WriteLine("AssignmentNumber: ");
+            //string assignmentNumber = Console.ReadLine();
+
+            //Console.WriteLine("AssignmentID: ");
+            //int assignmentId = int.Parse(Console.ReadLine());
+
+            //Assignment assignment = new Assignment()
+            //{
+            //    AssignmentName = assignmentName,
+            //    AssignmentNumber = assignmentNumber,
+            //    AssignmentId = assignmentId
+            //};
+
+            if (student != null)
+            {
+                assignment.StudentAssignments = new List<StudentAssignment>()
+                {
+                    new StudentAssignment()
+                    {
+                        Student = student,
+                        Assignment = assignment
+                    }
+                };
+            }
+
+            return assignment;
+        }
+
+        private static Teacher HelpWithExecise(myDBContext context)
+        {
+            // help with execise
+            Exercise exercise = findExercise(context);
+            Teacher teacher = CreateTeacher(context); 
+
+            if (exercise != null)
+            {
+                exercise.Teacher = teacher;
+                teacher.Exercises.Add(exercise);
+            }
+            if (exercise == null)
+                return null; 
+            else
+                return exercise.Teacher;
+        }
+
+        // help With assigment
+        private static Teacher HelpWithAssignment(myDBContext context)
+        {
+            Assignment assignment = findAssignment(context);
+            Teacher teacher = CreateTeacher(context); 
+
+            if (assignment != null)
+            {
+                assignment.Teacher = teacher;
+                teacher.Assignments.Add(assignment);
+            }
+            if (assignment == null)
+                return null; 
+            else
+                return assignment.Teacher;
         }
 
 
