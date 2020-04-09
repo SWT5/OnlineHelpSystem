@@ -9,7 +9,7 @@ namespace OnlineHelpSystem
     {
         static void Main(string[] args)
         {
-            var seedData = new SeedData();
+            //var seedData = new SeedData();
 
             
         }
