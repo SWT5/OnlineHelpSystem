@@ -28,7 +28,7 @@ namespace OnlineHelpSystem
                     switch (line)
                     {
                         case "s":
-                            Student student = InputAuthor(context);
+                            Student student = inputStudent(context);
                             context.Students.Add(student);
                             context.SaveChanges();
                             break;
@@ -97,21 +97,147 @@ namespace OnlineHelpSystem
                 .Include(s => s.Exercises).ThenInclude(e => e.HelpWhere).ToList();
         }
 
+        // find student
+        private static Student findStudent(myDBContext context)
+        {
+            Console.WriteLine("AuID: ");
+            string auid = Console.ReadLine();
 
-        //insert student
+            return context.Students.Where(s => s.AuId == auid).Single();
+        }
+
+        // find course
+        private static Course findCourse(myDBContext context)
+        {
+            Console.WriteLine("CourseID: ");
+            int courseId = int.Parse(Console.ReadLine());
+
+            return context.Courses.Where(c => c.CourseId == courseId).Single();
+        }
+
+        //find teacher
+        private static Teacher findTeacher(myDBContext context)
+        {
+            Console.WriteLine("AuID: ");
+            string auid = Console.ReadLine();
+
+            return context.Teachers.Where(s => s.AuId == auid).Single();
+        }
+
+        //create student
         private static Student inputStudent(myDBContext context)
+        {
+            Course course = findCourse(context); 
+
+            Console.WriteLine("Name: ");
+            string name = Console.ReadLine(); 
+
+            Console.WriteLine("AuID: ");
+            string auid = Console.ReadLine();
+
+            Student student = new Student()
+            {
+                Name = name,
+                AuId = auid
+            };
+
+            if (course != null)
+            { 
+                student.StudentCourses = new List<StudentCourse>()
+                {
+                    new StudentCourse()
+                    {
+                        Course = course,
+                        Student = student
+                    }
+                };
+            }
+            return student;
+        }
+
+        // create teacher
+        private static Teacher inpuTeacher(myDBContext context)
         {
             Console.WriteLine("Name: ");
             string name = Console.ReadLine(); 
 
             Console.WriteLine("AuID: ");
-            string auid = Console.ReadLine(); 
+            string auid = Console.ReadLine();
 
-            return new Student()
+            return new Teacher()
             {
-
-            }
+                Name = name,
+                AuId = auid
+            };
         }
+
+
+        //create course
+        private static Course inputCourse(myDBContext context)
+        {
+            Teacher teacher = findTeacher(context); // finder teacher der skal sættes til kurset
+
+            Console.WriteLine("title: ");
+            string title = Console.ReadLine(); 
+
+            Console.WriteLine("CourseID: ");
+            int courseId = int.Parse(Console.ReadLine());
+
+            Course course = new Course()
+            {
+                Name = title,
+                CourseId = courseId
+            };
+
+            if (teacher != null)
+            {
+                course.Teachers = new List<Teacher>()
+                {
+                    new Teacher()
+                    {
+                        Course = course
+                    }
+                };
+            }
+
+            return course;
+        }
+
+        private static Exercise createHelpRequestExercise(myDBContext context)
+        {
+            Student student = findStudent(context);
+
+            Console.WriteLine("Lecture: ");
+            string lecture = Console.ReadLine();
+
+            Console.WriteLine("Number: ");
+            int number = int.Parse(Console.ReadLine());
+            
+            Console.WriteLine("Help where?: ");
+            string helpWhere = Console.ReadLine();
+
+            Exercise exercise = new Exercise()
+            {
+                Lecture = lecture,
+                Number = number,
+                HelpWhere = helpWhere
+            };
+
+            if (student != null)
+            {
+                //exercise.Student.Exercises = new List<Exercise>()
+                //{
+                //    new Exercise()
+                //    {
+                //        Student = student
+                //    }
+                //};
+                student.Exercises.Add(exercise);
+            }
+            return exercise;
+        }
+
+
 
     }
 
