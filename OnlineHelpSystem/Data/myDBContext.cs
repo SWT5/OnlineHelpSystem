@@ -79,7 +79,6 @@ namespace OnlineHelpSystem.Data
             //Assignment
             modelBuilder.Entity<Assignment>().HasKey(a => new { a.AssignmentId });
 
-            modelBuilder.Entity<Course>().HasData(new Course {Name = "DAB"});
 
         }
 
