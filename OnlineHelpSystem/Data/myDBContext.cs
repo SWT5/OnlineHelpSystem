@@ -30,11 +30,12 @@ namespace OnlineHelpSystem.Data
             modelBuilder.Entity<Teacher>() //One to many Exercises
                 .HasMany<Exercise>(t => t.Exercises)
                 .WithOne(e=> e.Teacher)
-                .HasForeignKey(e  => new {e.TeacherFKId});
+                .HasForeignKey(e  => e.TeacherFKId);
             modelBuilder.Entity<Teacher>()
                 .HasMany<Assignment>(t => t.Assignments) //One-to-many
                 .WithOne(a => a.Teacher)
                 .HasForeignKey(a => a.TeacherFKId);
+
 
             //Course
             modelBuilder.Entity<Course>().HasKey(c => new {c.CourseId});
@@ -49,7 +50,7 @@ namespace OnlineHelpSystem.Data
             modelBuilder.Entity<Course>()
                 .HasMany<Exercise>(c => c.Exercises)
                 .WithOne(e => e.Course)
-                .HasForeignKey(e => new {e.CourseFKId});
+                .HasForeignKey(e => e.CourseFKId);
 
             //Exercise
             modelBuilder.Entity<Exercise>().HasKey(e => new { e.Lecture, e.Number });
@@ -85,10 +86,9 @@ namespace OnlineHelpSystem.Data
                 .HasForeignKey(sa => sa.AssignmentFKId);
 
             //Assignment
-            modelBuilder.Entity<Assignment>().HasKey(a => new {a.AssignmentId});
-            
-            
-           
+            modelBuilder.Entity<Assignment>().HasKey(a => new { a.AssignmentId });
+
+
         }
 
         
