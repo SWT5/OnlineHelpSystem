@@ -9,8 +9,8 @@ using OnlineHelpSystem.Data;
 namespace OnlineHelpSystem.Migrations
 {
     [DbContext(typeof(myDBContext))]
-    [Migration("20200409125319_insertDummyData")]
-    partial class insertDummyData
+    [Migration("20200409153011_coursesrelationremoved")]
+    partial class coursesrelationremoved
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -46,6 +46,24 @@ namespace OnlineHelpSystem.Migrations
                     b.HasIndex("TeacherFKId");
 
                     b.ToTable("Assignments");
+
+                    b.HasData(
+                        new
+                        {
+                            AssignmentId = 1,
+                            AssignmentName = "DAB handin 1",
+                            AssignmentNumber = "1",
+                            CourseFKId = 111,
+                            TeacherFKId = "654321"
+                        },
+                        new
+                        {
+                            AssignmentId = 2,
+                            AssignmentName = "DAB handin 2",
+                            AssignmentNumber = "2",
+                            CourseFKId = 111,
+                            TeacherFKId = "654321"
+                        });
                 });
 
             modelBuilder.Entity("OnlineHelpSystem.Models.Course", b =>
@@ -104,6 +122,53 @@ namespace OnlineHelpSystem.Migrations
                     b.HasIndex("TeacherFKId");
 
                     b.ToTable("Exercises");
+
+                    b.HasData(
+                        new
+                        {
+                            Lecture = "1",
+                            Number = 1,
+                            CourseFKId = 111,
+                            HelpWhere = "bord 3",
+                            StudentFKId = "3",
+                            TeacherFKId = "123456"
+                        },
+                        new
+                        {
+                            Lecture = "2",
+                            Number = 1,
+                            CourseFKId = 111,
+                            HelpWhere = "bord 5",
+                            StudentFKId = "2",
+                            TeacherFKId = "123456"
+                        },
+                        new
+                        {
+                            Lecture = "3",
+                            Number = 1,
+                            CourseFKId = 222,
+                            HelpWhere = "bord 19",
+                            StudentFKId = "1",
+                            TeacherFKId = "123456"
+                        },
+                        new
+                        {
+                            Lecture = "4",
+                            Number = 1,
+                            CourseFKId = 222,
+                            HelpWhere = "bord 7",
+                            StudentFKId = "2",
+                            TeacherFKId = "654321"
+                        },
+                        new
+                        {
+                            Lecture = "5",
+                            Number = 1,
+                            CourseFKId = 222,
+                            HelpWhere = "bord 7",
+                            StudentFKId = "3",
+                            TeacherFKId = "654321"
+                        });
                 });
 
             modelBuilder.Entity("OnlineHelpSystem.Models.Student", b =>
@@ -187,7 +252,7 @@ namespace OnlineHelpSystem.Migrations
                     b.Property<string>("AuId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("CourseFKId")
+                    b.Property<int>("CourseFkId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -195,7 +260,7 @@ namespace OnlineHelpSystem.Migrations
 
                     b.HasKey("AuId");
 
-                    b.HasIndex("CourseFKId");
+                    b.HasIndex("CourseFkId");
 
                     b.ToTable("Teachers");
 
@@ -203,20 +268,14 @@ namespace OnlineHelpSystem.Migrations
                         new
                         {
                             AuId = "123456",
-                            CourseFKId = 0,
+                            CourseFkId = 111,
                             Name = "Jens"
                         },
                         new
                         {
                             AuId = "654321",
-                            CourseFKId = 0,
+                            CourseFkId = 222,
                             Name = "Poul"
-                        },
-                        new
-                        {
-                            AuId = "246810",
-                            CourseFKId = 0,
-                            Name = "Susanne"
                         });
                 });
 
@@ -280,7 +339,7 @@ namespace OnlineHelpSystem.Migrations
                 {
                     b.HasOne("OnlineHelpSystem.Models.Course", "Course")
                         .WithMany("Teachers")
-                        .HasForeignKey("CourseFKId")
+                        .HasForeignKey("CourseFkId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

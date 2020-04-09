@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using Microsoft.EntityFrameworkCore;
 using OnlineHelpSystem.Models;
 using OnlineHelpSystem.Data;
@@ -122,7 +123,7 @@ namespace OnlineHelpSystem
         // find student
         private static Student findStudent(myDBContext context)
         {
-            Console.WriteLine("AuID: ");
+            Console.WriteLine("Student AuID: ");
             string auid = Console.ReadLine();
 
             return context.Students.Where(s => s.AuId == auid).Single();
@@ -133,14 +134,15 @@ namespace OnlineHelpSystem
         {
             Console.WriteLine("CourseID: ");
             int courseId = int.Parse(Console.ReadLine());
-
+            
             return context.Courses.Where(c => c.CourseId == courseId).Single();
+           
         }
 
         //find teacher
         private static Teacher findTeacher(myDBContext context)
         {
-            Console.WriteLine("AuID: ");
+            Console.WriteLine("Teacher AuID: ");
             string auid = Console.ReadLine();
 
             return context.Teachers.Where(s => s.AuId == auid).Single();
@@ -173,12 +175,12 @@ namespace OnlineHelpSystem
         //create student
         private static Student CreateStudent(myDBContext context)
         {
-            Course course = findCourse(context); 
+            //Course course = findCourse(context); 
 
-            Console.WriteLine("Name: ");
+            Console.WriteLine("Student Name: ");
             string name = Console.ReadLine(); 
 
-            Console.WriteLine("AuID: ");
+            Console.WriteLine("Student AuID: ");
             string auid = Console.ReadLine();
 
             Student student = new Student()
@@ -187,43 +189,55 @@ namespace OnlineHelpSystem
                 AuId = auid
             };
 
-            if (course != null)
-            { 
-                student.StudentCourses = new List<StudentCourse>()
-                {
-                    new StudentCourse()
-                    {
-                        Course = course,
-                        Student = student
-                    }
-                };
-            }
+            //if (course != null)
+            //{ 
+            //    student.StudentCourses = new List<StudentCourse>()
+            //    {
+            //        new StudentCourse()
+            //        {
+            //            Course = course,
+            //            Student = student
+            //        }
+            //    };
+            //}
             return student;
         }
 
         // create teacher
         private static Teacher CreateTeacher(myDBContext context)
         {
-            Console.WriteLine("Name: ");
+            Course course = findCourse(context); 
+            Console.WriteLine("Teacher Name: ");
             string name = Console.ReadLine(); 
 
             Console.WriteLine("AuID: ");
             string auid = Console.ReadLine();
 
-            return new Teacher()
+            Teacher teacher = new Teacher()
             {
                 Name = name,
-                AuId = auid
+                AuId = auid,
             };
+
+            if (course != null)
+            {
+                teacher.CourseFkId = course.CourseId;
+                return teacher;
+            }
+            else
+            {
+                Console.WriteLine("Course does not exists!");
+                return null;
+            }
         }
 
 
         //create course
         private static Course CreateCourse(myDBContext context)
         {
-            Teacher teacher = findTeacher(context); // finder teacher der skal sættes til kurset
+            //Teacher teacher = findTeacher(context); // finder teacher der skal sættes til kurset
 
-            Console.WriteLine("title: ");
+            Console.WriteLine("Course title: ");
             string title = Console.ReadLine(); 
 
             Console.WriteLine("CourseID: ");
@@ -235,11 +249,15 @@ namespace OnlineHelpSystem
                 CourseId = courseId
             };
 
-            if (teacher != null)
-            {
-                teacher.Course = course;
-                course.Teachers.Add(teacher);
-            }
+            //if (teacher != null)
+            //{
+            //    teacher.Course = course;
+            //    course.Teachers = new List<Teacher>
+            //    {
+            //        teacher
+            //    };
+
+            //}
 
             return course;
         }
@@ -247,7 +265,8 @@ namespace OnlineHelpSystem
         //input assignment to couse
         private static Assignment inputAssignment(myDBContext context)
         {
-            Course couse = findCourse(context);
+            Course course = findCourse(context);
+            Teacher teacher = findTeacher(context);
 
             Console.WriteLine("AssignmentName: ");
             string assignmentName = Console.ReadLine();
@@ -265,11 +284,18 @@ namespace OnlineHelpSystem
                 AssignmentName = assignmentName
             };
 
-            if (couse != null)
+            if (course != null && teacher != null)
             {
-                assignment.Course = couse;
-                couse.Assignments.Add(assignment);
-                
+                assignment.CourseFKId = course.CourseId;
+                assignment.Course = course;
+                assignment.TeacherFKId = teacher.AuId;
+                course.Assignments.Add(assignment);
+                teacher.Assignments.Add(assignment);
+            }
+            else
+            {
+                Console.WriteLine("No course and no teacher");
+                return null;
             }
 
             return assignment;

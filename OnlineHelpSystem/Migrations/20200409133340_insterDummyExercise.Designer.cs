@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineHelpSystem.Data;
 
 namespace OnlineHelpSystem.Migrations
 {
     [DbContext(typeof(myDBContext))]
-    partial class myDBContextModelSnapshot : ModelSnapshot
+    [Migration("20200409133340_insterDummyExercise")]
+    partial class insterDummyExercise
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,24 +46,6 @@ namespace OnlineHelpSystem.Migrations
                     b.HasIndex("TeacherFKId");
 
                     b.ToTable("Assignments");
-
-                    b.HasData(
-                        new
-                        {
-                            AssignmentId = 1,
-                            AssignmentName = "DAB handin 1",
-                            AssignmentNumber = "1",
-                            CourseFKId = 111,
-                            TeacherFKId = "654321"
-                        },
-                        new
-                        {
-                            AssignmentId = 2,
-                            AssignmentName = "DAB handin 2",
-                            AssignmentNumber = "2",
-                            CourseFKId = 111,
-                            TeacherFKId = "654321"
-                        });
                 });
 
             modelBuilder.Entity("OnlineHelpSystem.Models.Course", b =>
@@ -130,42 +114,6 @@ namespace OnlineHelpSystem.Migrations
                             HelpWhere = "bord 3",
                             StudentFKId = "3",
                             TeacherFKId = "123456"
-                        },
-                        new
-                        {
-                            Lecture = "2",
-                            Number = 1,
-                            CourseFKId = 111,
-                            HelpWhere = "bord 5",
-                            StudentFKId = "2",
-                            TeacherFKId = "123456"
-                        },
-                        new
-                        {
-                            Lecture = "3",
-                            Number = 1,
-                            CourseFKId = 222,
-                            HelpWhere = "bord 19",
-                            StudentFKId = "1",
-                            TeacherFKId = "123456"
-                        },
-                        new
-                        {
-                            Lecture = "4",
-                            Number = 1,
-                            CourseFKId = 222,
-                            HelpWhere = "bord 7",
-                            StudentFKId = "2",
-                            TeacherFKId = "654321"
-                        },
-                        new
-                        {
-                            Lecture = "5",
-                            Number = 1,
-                            CourseFKId = 222,
-                            HelpWhere = "bord 7",
-                            StudentFKId = "3",
-                            TeacherFKId = "654321"
                         });
                 });
 
