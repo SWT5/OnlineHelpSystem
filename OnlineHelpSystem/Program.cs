@@ -18,7 +18,7 @@ namespace OnlineHelpSystem
             {
                 System.Console.WriteLine("Usage");
                 System.Console.WriteLine("Insert: s(Student), t(Teacher), c(Course), e(Exercise HelpRequest), a(Assignment HelpRequest)");
-                System.Console.WriteLine("Lists: ls(Students), lt(Teachers), lc(Courses), shr(student helpRequests)");
+                System.Console.WriteLine("Lists: ls(Students), lt(Teachers), lc(Courses), shr(student helpRequests), tcfr(teacher course find help request)");
                 System.Console.WriteLine("Exit: x");
 
                 while (true)
@@ -57,12 +57,6 @@ namespace OnlineHelpSystem
                             context.SaveChanges();
                             break;
 
-                        //case "he":
-                        //    Exercise exe = CreateExeciseHelpRequest(context);
-                        //    context.Exercises.Add(exercise);
-                        //    context.SaveChanges();
-                        //    break;
-
                         case "ls":
                             ListAllStudents(context);
                             break;
@@ -77,6 +71,9 @@ namespace OnlineHelpSystem
                         case "shr": 
                             ListStudentHelpRequests(context);
                             break;
+                        case "tcfr": 
+                            View_Teacher_Course_HelpRequests(context);
+                            break;
 
                         case "x":
                             System.Console.WriteLine("Exiting....");
@@ -89,7 +86,7 @@ namespace OnlineHelpSystem
             }
         }
 
-        //views 
+        //lists
 
         private static void ListAllStudents(myDBContext context)
             {
@@ -97,7 +94,7 @@ namespace OnlineHelpSystem
                 var students = context.Students.ToList();
                 foreach (var s in students)
                 {
-                    Console.WriteLine($"{s.Name}: {s.AuId}");
+                    Console.WriteLine($"Student name: {s.Name}, AuID: {s.AuId}");
                 }
             }
 
@@ -110,16 +107,19 @@ namespace OnlineHelpSystem
             Console.WriteLine("Listing all students helpRequests");
             foreach (var e in student.Exercises)
             {
-                Console.WriteLine($"{e.Course}: {e.Lecture},{e.Number}: {e.HelpWhere}");
+                Console.WriteLine($"Course: {e.Course}, Lecture: {e.Lecture}, Exercise Nr: {e.Number}, Location: {e.HelpWhere}");
             }
         }
 
         private static void ListAllTeachers(myDBContext context)
         {
-            List<Teacher> teachers = context.Teachers
-                .Include(t => t.Course).ThenInclude(c => c.Teachers).ToList();
+            Console.WriteLine("listing all teachers");
+            var teachers = context.Teachers.ToList();
+            foreach (var t in teachers)
+            {
+                Console.WriteLine($"Teacher name: {t.Name}, AuID: {t.AuId}");
+            }
 
-            Console.WriteLine(string.Join(",", teachers));
         }
 
 
@@ -129,21 +129,62 @@ namespace OnlineHelpSystem
             var courses = context.Courses.ToList();
             foreach (var c in courses)
             {
-                Console.WriteLine($"{c.Name}: {c.CourseId}");
+                Console.WriteLine($"Course name: {c.Name}, CourseID: {c.CourseId}");
             }
         }
 
-        //given student print list of all students open help requests
-        //private static void ListAllStudentHelpRequests(myDBContext context)
-        //{
-        //    List<Student> students = context.Students
-        //        .Include(s => s.Exercises).ThenInclude(e => e.HelpWhere).ToList();
-        //}
+        //views 
+
+        #region views
+
+        private static void View_Teacher_Course_HelpRequests(myDBContext context)
+        {
+            //Teacher tempTeacher = findTeacher(context);
+            //Course tempCourse = findCourse(context);
+
+            //var view = context.Courses.Where(p =>p.CourseId == tempCourse.CourseId)
+            //    .Include(c => c.Exercises).ThenInclude(c => c.Teacher)
+            //    //.Where(c =>c.CourseId == tempCourse.CourseId)
+            //    .Select(c =>new {c.CourseId, c.})
+            //    .ToList();
+            //Console.WriteLine(string.Join(", \n", view));
+
+            //List<Teacher> teachers = context.Teachers
+            //    .Include(t => t.Course).ThenInclude(c => c.Teachers).ToList();
+            //Console.WriteLine(string.Join(",\n", teachers));
+
+            //var blogs = context.Teachers
+            //    .Include(t => t.Course).ThenInclude(c => c.Exercises)
+            //    .Where(t => t == tempTeacher)
+            //    .Select(t => t.Course.Exercises)
+            //    .ToList();
+            //Console.WriteLine(string.Join(",\n", blogs));
+
+            //Console.WriteLine("which teacher do you want to find information from?");
+            //string teacherName = findTeacher(context).Name;
+            //var helpRequestsView = context.Teachers
+            //    .Include(t => t.Exercises)
+            //    .Include(t =>t.Assignments)
+            //    .ToList();
+
+            //int i = 0;
+            //foreach (var t in helpRequestsView)
+            //{
+            //    Console.WriteLine($"Assignments");
+            //}
+            //Console.WriteLine(helpRequests);
+
+        }
+
+        #endregion
+        
+        //find
 
         // find student
         private static Student findStudent(myDBContext context)
         {
-            Console.WriteLine("Student AuID: ");
+            ListAllStudents(context);
+            Console.WriteLine("Choose student AuID: ");
             string auid = Console.ReadLine();
 
             return context.Students.Where(s => s.AuId == auid).Single();
@@ -152,7 +193,8 @@ namespace OnlineHelpSystem
         // find course
         private static Course findCourse(myDBContext context)
         {
-            Console.WriteLine("CourseID: ");
+            ListAllCourses(context);
+            Console.WriteLine("Choose CourseID: ");
             int courseId = int.Parse(Console.ReadLine());
             
             return context.Courses.Where(c => c.CourseId == courseId).Single();
@@ -162,7 +204,8 @@ namespace OnlineHelpSystem
         //find teacher
         private static Teacher findTeacher(myDBContext context)
         {
-            Console.WriteLine("Teacher AuID: ");
+            ListAllTeachers(context);
+            Console.WriteLine("Choose Teacher AuID: ");
             string auid = Console.ReadLine();
 
             return context.Teachers.Where(s => s.AuId == auid).Single();
@@ -171,6 +214,7 @@ namespace OnlineHelpSystem
         // find Execise
         private static Exercise findExercise(myDBContext context)
         {
+            ListStudentHelpRequests(context);
             Console.WriteLine("Lecture: ");
             string lecture = Console.ReadLine();
 
@@ -230,29 +274,34 @@ namespace OnlineHelpSystem
         // create teacher
         private static Teacher CreateTeacher(myDBContext context)
         {
-            Course course = findCourse(context); 
+            Course course = new Course();
             Console.WriteLine("Teacher Name: ");
             string name = Console.ReadLine(); 
 
             Console.WriteLine("AuID: ");
             string auid = Console.ReadLine();
 
+            Console.WriteLine("Assign teacher to a course? type(y) for yes ");
+            string input = Console.ReadLine();
+            if (input == "y")
+            {
+                Console.WriteLine("type CourseID");
+                course = findCourse(context);
+            }
+
             Teacher teacher = new Teacher()
             {
                 Name = name,
                 AuId = auid,
+                Course = course
             };
 
-            if (course != null)
-            {
-                teacher.CourseFkId = course.CourseId;
-                return teacher;
-            }
-            else
-            {
-                Console.WriteLine("Course does not exists!");
-                return null;
-            }
+            course.Teachers = new List<Teacher>();
+            course.Teachers.Add(teacher);
+            context.Teachers.Add(teacher);
+            return teacher;
+            
+            
         }
 
 
