@@ -93,11 +93,10 @@ namespace OnlineHelpSystem.Migrations
 
             modelBuilder.Entity("OnlineHelpSystem.Models.Exercise", b =>
                 {
-                    b.Property<string>("Lecture")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("Number")
-                        .HasColumnType("int");
+                    b.Property<int>("ExerciseId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("CourseFKId")
                         .HasColumnType("int");
@@ -105,13 +104,19 @@ namespace OnlineHelpSystem.Migrations
                     b.Property<string>("HelpWhere")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Lecture")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Number")
+                        .HasColumnType("int");
+
                     b.Property<string>("StudentFKId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("TeacherFKId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Lecture", "Number");
+                    b.HasKey("ExerciseId");
 
                     b.HasIndex("CourseFKId");
 
@@ -124,46 +129,51 @@ namespace OnlineHelpSystem.Migrations
                     b.HasData(
                         new
                         {
-                            Lecture = "1",
-                            Number = 1,
+                            ExerciseId = 1,
                             CourseFKId = 111,
                             HelpWhere = "bord 3",
+                            Lecture = "1",
+                            Number = 1,
                             StudentFKId = "3",
                             TeacherFKId = "123456"
                         },
                         new
                         {
-                            Lecture = "2",
-                            Number = 1,
+                            ExerciseId = 2,
                             CourseFKId = 111,
                             HelpWhere = "bord 5",
+                            Lecture = "2",
+                            Number = 1,
                             StudentFKId = "2",
                             TeacherFKId = "123456"
                         },
                         new
                         {
-                            Lecture = "3",
-                            Number = 1,
+                            ExerciseId = 3,
                             CourseFKId = 222,
                             HelpWhere = "bord 19",
+                            Lecture = "3",
+                            Number = 1,
                             StudentFKId = "1",
                             TeacherFKId = "123456"
                         },
                         new
                         {
-                            Lecture = "4",
-                            Number = 1,
+                            ExerciseId = 4,
                             CourseFKId = 222,
                             HelpWhere = "bord 7",
+                            Lecture = "4",
+                            Number = 1,
                             StudentFKId = "2",
                             TeacherFKId = "654321"
                         },
                         new
                         {
-                            Lecture = "5",
-                            Number = 1,
+                            ExerciseId = 5,
                             CourseFKId = 222,
                             HelpWhere = "bord 7",
+                            Lecture = "5",
+                            Number = 1,
                             StudentFKId = "3",
                             TeacherFKId = "654321"
                         });
@@ -201,8 +211,10 @@ namespace OnlineHelpSystem.Migrations
 
             modelBuilder.Entity("OnlineHelpSystem.Models.StudentAssignment", b =>
                 {
-                    b.Property<string>("StudentAssignmentId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("StudentAssignmentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("AssignmentFKId")
                         .HasColumnType("int");

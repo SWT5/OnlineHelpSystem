@@ -68,7 +68,7 @@ namespace OnlineHelpSystem.Data
             //    .WithOne(e => e.Course);
 
             //Exercise
-            modelBuilder.Entity<Exercise>().HasKey(e => new { e.Lecture, e.Number });
+            modelBuilder.Entity<Exercise>().HasKey(e => new {e.ExerciseId });
             //relation to student
             modelBuilder.Entity<Exercise>()
                 .HasOne<Student>(e => e.Student)
@@ -152,11 +152,11 @@ namespace OnlineHelpSystem.Data
             );
 
             modelBuilder.Entity<Exercise>().HasData(
-                new Exercise { Lecture = "1", Number = 1, HelpWhere = "bord 3", CourseFKId = 111, StudentFKId = "3", TeacherFKId = "123456" },
-                new Exercise { Lecture = "2", Number = 1, HelpWhere = "bord 5", CourseFKId = 111, StudentFKId = "2", TeacherFKId = "123456" },
-                new Exercise { Lecture = "3", Number = 1, HelpWhere = "bord 19", CourseFKId = 222, StudentFKId = "1", TeacherFKId = "123456" },
-                new Exercise { Lecture = "4", Number = 1, HelpWhere = "bord 7", CourseFKId = 222, StudentFKId = "2", TeacherFKId = "654321" },
-                new Exercise { Lecture = "5", Number = 1, HelpWhere = "bord 7", CourseFKId = 222, StudentFKId = "3", TeacherFKId = "654321" }
+                new Exercise { Lecture = "1", Number = 1, HelpWhere = "bord 3", CourseFKId = 111, StudentFKId = "3", TeacherFKId = "123456", ExerciseId = 1},
+                new Exercise { Lecture = "2", Number = 1, HelpWhere = "bord 5", CourseFKId = 111, StudentFKId = "2", TeacherFKId = "123456" , ExerciseId = 2},
+                new Exercise { Lecture = "3", Number = 1, HelpWhere = "bord 19", CourseFKId = 222, StudentFKId = "1", TeacherFKId = "123456", ExerciseId = 3},
+                new Exercise { Lecture = "4", Number = 1, HelpWhere = "bord 7", CourseFKId = 222, StudentFKId = "2", TeacherFKId = "654321", ExerciseId = 4},
+                new Exercise { Lecture = "5", Number = 1, HelpWhere = "bord 7", CourseFKId = 222, StudentFKId = "3", TeacherFKId = "654321", ExerciseId = 5}
             );
 
 

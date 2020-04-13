@@ -6,17 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20200406140253_InitialCreate.cs" />
-    <Compile Remove="Migrations\20200406140253_InitialCreate.Designer.cs" />
-    <Compile Remove="Migrations\20200409125319_insertDummyData.cs" />
-    <Compile Remove="Migrations\20200409125319_insertDummyData.Designer.cs" />
-    <Compile Remove="Migrations\20200409133145_InsertDummyExecise.cs" />
-    <Compile Remove="Migrations\20200409133145_InsertDummyExecise.Designer.cs" />
-    <Compile Remove="Migrations\20200409145040_reverseFkeyInsertDummywithoutFK.cs" />
-    <Compile Remove="Migrations\20200409145040_reverseFkeyInsertDummywithoutFK.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="Data\NewFile1.txt" />
     <None Remove="Models\NewFile1.txt" />
   </ItemGroup>

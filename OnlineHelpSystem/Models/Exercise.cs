@@ -6,6 +6,7 @@ namespace OnlineHelpSystem.Models
 {
     public class Exercise
     {
+        public int ExerciseId { get; set; }
         public int Number { get; set; }     // primary key with Lecture
         public string Lecture { get; set; } // primary key with number
         public string HelpWhere { get; set; }

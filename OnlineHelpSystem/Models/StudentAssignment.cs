@@ -8,6 +8,6 @@
         
         public int AssignmentFKId { get; set; }
 
-        public string StudentAssignmentId { get; set; }
+        public int StudentAssignmentId { get; set; }
     }
 }
