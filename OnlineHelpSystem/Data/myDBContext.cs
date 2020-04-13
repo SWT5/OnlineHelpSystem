@@ -25,16 +25,9 @@ namespace OnlineHelpSystem.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //Teacher
-            //modelBuilder.Entity<Teacher>().HasKey(t  => new { t.AuId});
-            //modelBuilder.Entity<Teacher>() //One to many Exercises
-            //    .HasMany<Exercise>(t => t.Exercises)
-            //    .WithOne(e => e.Teacher);
-            //    //.HasForeignKey(e => e.TeacherFKId);
-            //modelBuilder.Entity<Teacher>()
-            //    .HasMany<Assignment>(t => t.Assignments) //One-to-many
-            //    .WithOne(a => a.Teacher)
-            //    .HasForeignKey(a => a.TeacherFKId);
+
+
+            //**teacher**
 
             modelBuilder.Entity<Teacher>().HasKey(t  => new { t.AuId});
             //relation to course
@@ -44,30 +37,11 @@ namespace OnlineHelpSystem.Data
                 .HasForeignKey(t => t.CourseFkId);
 
 
-
-            //Course
-            //modelBuilder.Entity<Course>().HasKey(c => new {c.CourseId});
-            //modelBuilder.Entity<Course>() //one to many (Teacher)
-            //    .HasMany<Teacher>(c => c.Teachers)
-            //    .WithOne(t => t.Course)
-            //    .HasForeignKey(t => t.CourseFkId);
-            //modelBuilder.Entity<Course>()
-            //    .HasMany<Assignment>(c => c.Assignments)
-            //    .WithOne(a => a.Course)
-            //    .HasForeignKey(a => a.CourseFKId);
-            //modelBuilder.Entity<Course>()
-            //    .HasMany<Exercise>(c => c.Exercises)
-            //    .WithOne(e => e.Course)
-            //    .HasForeignKey(e => e.CourseFKId);
-
             //**Course**
             modelBuilder.Entity<Course>().HasKey(c => new { c.CourseId });
-            //relation to Exercise
-            //modelBuilder.Entity<Course>()
-            //    .HasMany<Exercise>(c => c.Exercises)
-            //    .WithOne(e => e.Course);
 
-            //Exercise
+
+            //**Exercise**
             modelBuilder.Entity<Exercise>().HasKey(e => new {e.ExerciseId });
             //relation to student
             modelBuilder.Entity<Exercise>()
@@ -98,15 +72,11 @@ namespace OnlineHelpSystem.Data
                 .HasForeignKey(sc => sc.CourseFKId);
 
 
-            //Student
+            //**Student**
             modelBuilder.Entity<Student>().HasKey(s => new {s.AuId});
-            //modelBuilder.Entity<Student>()
-            //    .HasMany<Exercise>(s => s.Exercises)
-            //    .WithOne(e => e.Student)
-            //    .HasForeignKey(e => new {e.StudentFKId});
+            
 
-
-            //StudentAssignment
+            //**StudentAssignment**
             modelBuilder.Entity<StudentAssignment>().HasKey(sa => new {sa.StudentAssignmentId});
             modelBuilder.Entity<StudentAssignment>()
                 .HasOne(sa => sa.Student)
@@ -118,7 +88,7 @@ namespace OnlineHelpSystem.Data
                 .HasForeignKey(sa => sa.AssignmentFKId);
 
 
-            //Assignment
+            //**Assigment**
             modelBuilder.Entity<Assignment>().HasKey(a => new { a.AssignmentId });
             //relation to Course 
             modelBuilder.Entity<Assignment>()
@@ -134,7 +104,7 @@ namespace OnlineHelpSystem.Data
 
 
 
-            // dummy data 
+           //*********************DUMMY DATA***********************
             modelBuilder.Entity<Student>().HasData(
                 new Student { AuId = "1", Name = "Thanh" },
                 new Student { AuId = "2", Name = "Nikolaj" },
