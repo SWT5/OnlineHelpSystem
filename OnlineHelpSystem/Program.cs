@@ -24,6 +24,7 @@ namespace OnlineHelpSystem
                     System.Console.WriteLine("Create:\t s(Student), t(Teacher), c(Course), e(Exercise HelpRequest), a(Assignment HelpRequest)");
                     System.Console.WriteLine("Lists:\t ls(Students), lt(Teachers), lc(Courses)");
                     System.Console.WriteLine("Find:\t sfr(helpRequests by student), tcfr(help request by teacher/course)");
+                    System.Console.WriteLine("print:\t pa (print all help requests)");
                     System.Console.WriteLine("Exit:\t x");
                     Console.WriteLine("|----------------------------------------------------------------------------------------------------|\n");
 
@@ -200,17 +201,22 @@ namespace OnlineHelpSystem
 
         private static void View_Print_all_helprequest(myDBContext context)
         {
-            foreach (var c in context.Courses)
+            var courses = context.Courses.ToList();
+
+            foreach (var c in courses)
             {
-                Console.WriteLine(c.CourseId);
-                foreach (var a in context.Assignments)
+                Console.WriteLine(c.Name);
+                var assignments = context.Assignments.Where(a => a.CourseFKId == c.CourseId);
+                var exercises = context.Exercises.Where(e => e.CourseFKId == c.CourseId);
+
+                foreach (var a in assignments)
                 {
                     Console.WriteLine(a.ToString());
                 }
 
-                foreach (var e in context.Exercises)
+                foreach (var e in exercises)
                 {
-                    Console.WriteLine($"{e.ExerciseId}, {e.Lecture}, {e.Number}, {e.HelpWhere}, {e.IsOpen}");
+                    Console.WriteLine(e.ToString());
                 }
             }
         }

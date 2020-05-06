@@ -18,5 +18,10 @@ namespace OnlineHelpSystem.Models
         public Teacher Teacher { get; set; }
         public Student Student { get; set; }
         public Course Course { get; set; }
+
+        public override string ToString()
+        {
+            return $"[Execise Lecture: {Lecture}, ExeciseNumber: {Number}, Help at {HelpWhere}, Execise ID: {ExerciseId}], Reqeust isOpen: {IsOpen}";
+        }
     }
 }
