@@ -75,6 +75,24 @@ namespace OnlineHelpSystem.Migrations
                             CourseFKId = 111,
                             IsOpen = true,
                             TeacherFKId = "654321"
+                        },
+                        new
+                        {
+                            AssignmentId = 24,
+                            AssignmentName = "GUI handin 1",
+                            AssignmentNumber = "1",
+                            CourseFKId = 222,
+                            IsOpen = false,
+                            TeacherFKId = "123456"
+                        },
+                        new
+                        {
+                            AssignmentId = 25,
+                            AssignmentName = "DAB genaflevering 2",
+                            AssignmentNumber = "2",
+                            CourseFKId = 111,
+                            IsOpen = false,
+                            TeacherFKId = "654321"
                         });
                 });
 
@@ -197,6 +215,28 @@ namespace OnlineHelpSystem.Migrations
                             Lecture = "5",
                             Number = 1,
                             StudentFKId = "3",
+                            TeacherFKId = "654321"
+                        },
+                        new
+                        {
+                            ExerciseId = 6,
+                            CourseFKId = 222,
+                            HelpWhere = "bord 4",
+                            IsOpen = false,
+                            Lecture = "5",
+                            Number = 2,
+                            StudentFKId = "3",
+                            TeacherFKId = "654321"
+                        },
+                        new
+                        {
+                            ExerciseId = 7,
+                            CourseFKId = 222,
+                            HelpWhere = "bord 3",
+                            IsOpen = false,
+                            Lecture = "6",
+                            Number = 2,
+                            StudentFKId = "1",
                             TeacherFKId = "654321"
                         });
                 });

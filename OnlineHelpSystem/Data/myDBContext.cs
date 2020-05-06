@@ -126,7 +126,9 @@ namespace OnlineHelpSystem.Data
                 new Exercise { Lecture = "2", Number = 1, HelpWhere = "bord 5", CourseFKId = 111, StudentFKId = "2", TeacherFKId = "123456" , ExerciseId = 2, IsOpen = true},
                 new Exercise { Lecture = "3", Number = 1, HelpWhere = "bord 19", CourseFKId = 222, StudentFKId = "1", TeacherFKId = "123456", ExerciseId = 3, IsOpen =  true},
                 new Exercise { Lecture = "4", Number = 1, HelpWhere = "bord 7", CourseFKId = 222, StudentFKId = "2", TeacherFKId = "654321", ExerciseId = 4, IsOpen = true},
-                new Exercise { Lecture = "5", Number = 1, HelpWhere = "bord 7", CourseFKId = 222, StudentFKId = "3", TeacherFKId = "654321", ExerciseId = 5, IsOpen = true}
+                new Exercise { Lecture = "5", Number = 1, HelpWhere = "bord 7", CourseFKId = 222, StudentFKId = "3", TeacherFKId = "654321", ExerciseId = 5, IsOpen = true},
+                new Exercise { Lecture = "5", Number = 2, HelpWhere = "bord 4", CourseFKId = 222, StudentFKId = "3", TeacherFKId = "654321", ExerciseId = 6, IsOpen = false },
+                new Exercise { Lecture = "6", Number = 2, HelpWhere = "bord 3", CourseFKId = 222, StudentFKId = "1", TeacherFKId = "654321", ExerciseId = 7, IsOpen = false }
             );
 
 
@@ -151,7 +153,25 @@ namespace OnlineHelpSystem.Data
                     AssignmentNumber = "3",
                     TeacherFKId = "654321",
                     IsOpen = true
-                }
+                },
+                 new Assignment
+                 {
+                     AssignmentName = "GUI handin 1",
+                     AssignmentId = 24,
+                     CourseFKId = 222,
+                     AssignmentNumber = "1",
+                     TeacherFKId = "123456",
+                     IsOpen = false
+                 },
+                  new Assignment
+                  {
+                      AssignmentName = "DAB genaflevering 2",
+                      AssignmentId = 25,
+                      CourseFKId = 111,
+                      AssignmentNumber = "2",
+                      TeacherFKId = "654321",
+                      IsOpen = false
+                  }
             );
         }
 

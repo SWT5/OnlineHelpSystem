@@ -79,15 +79,14 @@ namespace OnlineHelpSystem
                             View_Students_HelpRequest(context);
                             break;
 
-                        case "x":
-                            System.Console.WriteLine("Exiting....");
-                            return;
-                        case "help":
-                            HelpWithExecise(context);
-                            break;
                         case "pa":
                             View_Print_all_helprequest(context);
                             break;
+
+                        case "x":
+                            System.Console.WriteLine("Exiting....");
+                            return;
+
                         default:
                             System.Console.WriteLine("Unknown command");
                             break;
