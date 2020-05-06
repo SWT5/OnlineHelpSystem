@@ -18,7 +18,7 @@ namespace OnlineHelpSystem.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=OnlineHelpSystem;Trusted_Connection=True;MultipleActiveResultSets=true");
+            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=OnlineHelpSystem45;Trusted_Connection=True;MultipleActiveResultSets=true");
         }
 
         
@@ -77,7 +77,7 @@ namespace OnlineHelpSystem.Data
             
 
             //**StudentAssignment**
-            modelBuilder.Entity<StudentAssignment>().HasKey(sa => new {sa.StudentAssignmentId});
+            modelBuilder.Entity<StudentAssignment>().HasKey(sa => new {sa.StudentFKAuId, sa.AssignmentFKId});
             modelBuilder.Entity<StudentAssignment>()
                 .HasOne(sa => sa.Student)
                 .WithMany(s => s.StudentAssignments)

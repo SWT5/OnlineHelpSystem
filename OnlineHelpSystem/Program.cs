@@ -16,15 +16,17 @@ namespace OnlineHelpSystem
         {
             using (var context = new myDBContext())
             {
-                System.Console.WriteLine("Usage");
-                System.Console.WriteLine("Create:\t s(Student), t(Teacher), c(Course), e(Exercise HelpRequest), a(Assignment HelpRequest)");
-                System.Console.WriteLine("Lists:\t ls(Students), lt(Teachers), lc(Courses)");
-                System.Console.WriteLine("Find:\t sfr(helpRequests by student), tcfr(help request by teacher/course)");
-                System.Console.WriteLine("Exit:\t x");
-
                 while (true)
                 {
+                    Console.WriteLine("|----------------------------------------------------------------------------------------------------|");
                     System.Console.WriteLine("Type command");
+                    System.Console.WriteLine("Usage");
+                    System.Console.WriteLine("Create:\t s(Student), t(Teacher), c(Course), e(Exercise HelpRequest), a(Assignment HelpRequest)");
+                    System.Console.WriteLine("Lists:\t ls(Students), lt(Teachers), lc(Courses)");
+                    System.Console.WriteLine("Find:\t sfr(helpRequests by student), tcfr(help request by teacher/course)");
+                    System.Console.WriteLine("Exit:\t x");
+                    Console.WriteLine("|----------------------------------------------------------------------------------------------------|\n");
+
                     string line = Console.ReadLine();
 
                     switch (line)
@@ -178,14 +180,16 @@ namespace OnlineHelpSystem
                 Console.WriteLine(e);
             }
 
-            //var assignments = context.Assignments.Where(a => a.StudentAssignments)
-            //    .Select(a => new { a.AssignmentName, a.AssignmentNumber, a.AssignmentId }).ToList();
-            //foreach (var s in assignments)
-            //{
-            //    Console.WriteLine(s);
-            //}
 
+            var studentsInShadowTabel = context.Students
+                .Include(s => s.StudentAssignments).ThenInclude(row => row.Assignment)
+                .First(s => s.AuId == studentId);
 
+            //var assignments = studentsInShadowTabel.StudentAssignments.Select(row => row.AssignmentFKId);
+            foreach (var s in studentsInShadowTabel.StudentAssignments)
+            {
+                Console.WriteLine(s.Assignment.ToString());
+            }
         }
 
 

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace OnlineHelpSystem.Models
 {
-    public class Assignment
+    public class Assignment: Object 
     {
         public string AssignmentName { get; set; }
         public string AssignmentNumber { get; set; }
@@ -16,5 +16,10 @@ namespace OnlineHelpSystem.Models
         public Course Course { get; set; }
         public Teacher Teacher { get; set; }
         public List<StudentAssignment> StudentAssignments { get; set; }
+
+        public override string ToString()
+        {
+            return $"[Assignment Name: {AssignmentName}, Assignment Number: {AssignmentNumber}, Assigment Id: {AssignmentId}]";
+        }
     }
 }
