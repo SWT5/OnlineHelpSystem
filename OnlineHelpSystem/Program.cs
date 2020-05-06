@@ -218,6 +218,7 @@ namespace OnlineHelpSystem
                 {
                     Console.WriteLine(e.ToString());
                 }
+                Console.WriteLine();
             }
         }
 
