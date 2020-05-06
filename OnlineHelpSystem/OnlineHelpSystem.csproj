@@ -6,6 +6,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200506091628_0.cs" />
+    <Compile Remove="Migrations\20200506091628_0.Designer.cs" />
+    <Compile Remove="Migrations\20200506092157_0.cs" />
+    <Compile Remove="Migrations\20200506092157_0.Designer.cs" />
+    <Compile Remove="Migrations\20200506093844_0.cs" />
+    <Compile Remove="Migrations\20200506093844_0.Designer.cs" />
+    <Compile Remove="Migrations\20200506094046_0.cs" />
+    <Compile Remove="Migrations\20200506094046_0.Designer.cs" />
+    <Compile Remove="Migrations\20200506094057_dummy.cs" />
+    <Compile Remove="Migrations\20200506094057_dummy.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Data\NewFile1.txt" />
     <None Remove="Models\NewFile1.txt" />
   </ItemGroup>

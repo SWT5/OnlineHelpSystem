@@ -13,6 +13,7 @@ namespace OnlineHelpSystem.Models
         public int CourseFKId { get; set; }
         public string StudentFKId { get; set; }
         public string TeacherFKId { get; set; }
+        public bool IsOpen { get; set; }
         
         public Teacher Teacher { get; set; }
         public Student Student { get; set; }

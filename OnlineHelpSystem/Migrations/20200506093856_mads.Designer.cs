@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineHelpSystem.Data;
 
 namespace OnlineHelpSystem.Migrations
 {
     [DbContext(typeof(myDBContext))]
-    partial class myDBContextModelSnapshot : ModelSnapshot
+    [Migration("20200506093856_mads")]
+    partial class mads
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,7 +57,7 @@ namespace OnlineHelpSystem.Migrations
                             AssignmentName = "DAB handin 1",
                             AssignmentNumber = "1",
                             CourseFKId = 111,
-                            IsOpen = true,
+                            IsOpen = false,
                             TeacherFKId = "654321"
                         },
                         new
@@ -64,16 +66,7 @@ namespace OnlineHelpSystem.Migrations
                             AssignmentName = "DAB handin 2",
                             AssignmentNumber = "2",
                             CourseFKId = 111,
-                            IsOpen = true,
-                            TeacherFKId = "654321"
-                        },
-                        new
-                        {
-                            AssignmentId = 23,
-                            AssignmentName = "DAB handin 3",
-                            AssignmentNumber = "3",
-                            CourseFKId = 111,
-                            IsOpen = true,
+                            IsOpen = false,
                             TeacherFKId = "654321"
                         });
                 });

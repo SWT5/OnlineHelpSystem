@@ -81,6 +81,12 @@ namespace OnlineHelpSystem
                         case "x":
                             System.Console.WriteLine("Exiting....");
                             return;
+                        case "help":
+                            HelpWithExecise(context);
+                            break;
+                        case "pa":
+                            View_Print_all_helprequest(context);
+                            break;
                         default:
                             System.Console.WriteLine("Unknown command");
                             break;
@@ -150,14 +156,14 @@ namespace OnlineHelpSystem
             int courseId = findCourse(context).CourseId;
 
             Console.WriteLine("Helps with: ");
-            var exercises = context.Exercises.Where(e => e.TeacherFKId == teacherId && courseId == e.CourseFKId)
+            var exercises = context.Exercises.Where(e => e.TeacherFKId == teacherId && courseId == e.CourseFKId && e.IsOpen == true)
                 .Select(e => new {e.ExerciseId, e.Lecture, e.Number, e.HelpWhere}).ToList();
             foreach (var e in exercises)
             {
                 Console.WriteLine(e);
             }
             
-            var assignments = context.Assignments.Where(a => a.TeacherFKId == teacherId && courseId == a.CourseFKId)
+            var assignments = context.Assignments.Where(a => a.TeacherFKId == teacherId && courseId == a.CourseFKId && a.IsOpen == true)
                 .Select(a => new { a.AssignmentName, a.AssignmentNumber, a.AssignmentId}).ToList();
             foreach (var s in assignments)
             {
@@ -173,8 +179,8 @@ namespace OnlineHelpSystem
 
 
             Console.WriteLine("Needs help with: ");
-            var exercises = context.Exercises.Where(e => e.StudentFKId == studentId)
-                .Select(e => new { e.ExerciseId, e.Lecture, e.Number, e.HelpWhere }).ToList();
+            var exercises = context.Exercises.Where(e => e.StudentFKId == studentId && e.IsOpen == true)
+                .Select(e => new { e.ExerciseId, e.Lecture, e.Number, e.HelpWhere, e.IsOpen }).ToList();
             foreach (var e in exercises)
             {
                 Console.WriteLine(e);
@@ -183,12 +189,29 @@ namespace OnlineHelpSystem
 
             var studentsInShadowTabel = context.Students
                 .Include(s => s.StudentAssignments).ThenInclude(row => row.Assignment)
-                .First(s => s.AuId == studentId);
+                .First(s => s.AuId == studentId );
 
-            //var assignments = studentsInShadowTabel.StudentAssignments.Select(row => row.AssignmentFKId);
             foreach (var s in studentsInShadowTabel.StudentAssignments)
             {
-                Console.WriteLine(s.Assignment.ToString());
+                if (s.Assignment.IsOpen == true)
+                    Console.WriteLine(s.Assignment.ToString());
+            }
+        }
+
+        private static void View_Print_all_helprequest(myDBContext context)
+        {
+            foreach (var c in context.Courses)
+            {
+                Console.WriteLine(c.CourseId);
+                foreach (var a in context.Assignments)
+                {
+                    Console.WriteLine(a.ToString());
+                }
+
+                foreach (var e in context.Exercises)
+                {
+                    Console.WriteLine($"{e.ExerciseId}, {e.Lecture}, {e.Number}, {e.HelpWhere}, {e.IsOpen}");
+                }
             }
         }
 
@@ -367,7 +390,8 @@ namespace OnlineHelpSystem
             {
                 AssignmentNumber = assignmentNumber,
                 AssignmentName = assignmentName,
-                TeacherFKId = teacher.AuId
+                TeacherFKId = teacher.AuId,
+                IsOpen = true
             };
 
             if (temp != null)
@@ -417,7 +441,8 @@ namespace OnlineHelpSystem
                 Lecture = lecture,
                 Number = number,
                 HelpWhere = helpWhere,
-                TeacherFKId = teacher.AuId
+                TeacherFKId = teacher.AuId,
+                IsOpen = true
             };
 
             if (course != null)
@@ -492,7 +517,7 @@ namespace OnlineHelpSystem
                     new StudentAssignment()
                     {
                         Student = student,
-                        Assignment = assignment
+                        Assignment = assignment,
                     }
                 };
             }
@@ -514,6 +539,7 @@ namespace OnlineHelpSystem
             {
                 exercise.Teacher = teacher;
                 teacher.Exercises.Add(exercise);
+                exercise.IsOpen = false;
             }
             if (exercise == null)
                 return null;

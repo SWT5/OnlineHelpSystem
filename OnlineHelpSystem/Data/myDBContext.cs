@@ -122,11 +122,11 @@ namespace OnlineHelpSystem.Data
             );
 
             modelBuilder.Entity<Exercise>().HasData(
-                new Exercise { Lecture = "1", Number = 1, HelpWhere = "bord 3", CourseFKId = 111, StudentFKId = "3", TeacherFKId = "123456", ExerciseId = 1},
-                new Exercise { Lecture = "2", Number = 1, HelpWhere = "bord 5", CourseFKId = 111, StudentFKId = "2", TeacherFKId = "123456" , ExerciseId = 2},
-                new Exercise { Lecture = "3", Number = 1, HelpWhere = "bord 19", CourseFKId = 222, StudentFKId = "1", TeacherFKId = "123456", ExerciseId = 3},
-                new Exercise { Lecture = "4", Number = 1, HelpWhere = "bord 7", CourseFKId = 222, StudentFKId = "2", TeacherFKId = "654321", ExerciseId = 4},
-                new Exercise { Lecture = "5", Number = 1, HelpWhere = "bord 7", CourseFKId = 222, StudentFKId = "3", TeacherFKId = "654321", ExerciseId = 5}
+                new Exercise { Lecture = "1", Number = 1, HelpWhere = "bord 3", CourseFKId = 111, StudentFKId = "3", TeacherFKId = "123456", ExerciseId = 1, IsOpen = true},
+                new Exercise { Lecture = "2", Number = 1, HelpWhere = "bord 5", CourseFKId = 111, StudentFKId = "2", TeacherFKId = "123456" , ExerciseId = 2, IsOpen = true},
+                new Exercise { Lecture = "3", Number = 1, HelpWhere = "bord 19", CourseFKId = 222, StudentFKId = "1", TeacherFKId = "123456", ExerciseId = 3, IsOpen =  true},
+                new Exercise { Lecture = "4", Number = 1, HelpWhere = "bord 7", CourseFKId = 222, StudentFKId = "2", TeacherFKId = "654321", ExerciseId = 4, IsOpen = true},
+                new Exercise { Lecture = "5", Number = 1, HelpWhere = "bord 7", CourseFKId = 222, StudentFKId = "3", TeacherFKId = "654321", ExerciseId = 5, IsOpen = true}
             );
 
 
@@ -134,12 +134,23 @@ namespace OnlineHelpSystem.Data
                 new Assignment
                 {
                     AssignmentName = "DAB handin 1", AssignmentId = 1, CourseFKId = 111, AssignmentNumber = "1",
-                    TeacherFKId = "654321"
+                    TeacherFKId = "654321",
+                    IsOpen = true
                 },
                 new Assignment
                 {
                     AssignmentName = "DAB handin 2", AssignmentId = 2, CourseFKId = 111, AssignmentNumber = "2",
-                    TeacherFKId = "654321"
+                    TeacherFKId = "654321",
+                    IsOpen = true
+                },
+                new Assignment
+                {
+                    AssignmentName = "DAB handin 3",
+                    AssignmentId = 23,
+                    CourseFKId = 111,
+                    AssignmentNumber = "3",
+                    TeacherFKId = "654321",
+                    IsOpen = true
                 }
             );
         }

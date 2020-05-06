@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineHelpSystem.Data;
 
 namespace OnlineHelpSystem.Migrations
 {
     [DbContext(typeof(myDBContext))]
-    partial class myDBContextModelSnapshot : ModelSnapshot
+    [Migration("20200506091729_all")]
+    partial class all
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,9 +36,6 @@ namespace OnlineHelpSystem.Migrations
                     b.Property<int>("CourseFKId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsOpen")
-                        .HasColumnType("bit");
-
                     b.Property<string>("TeacherFKId")
                         .HasColumnType("nvarchar(450)");
 
@@ -55,7 +54,6 @@ namespace OnlineHelpSystem.Migrations
                             AssignmentName = "DAB handin 1",
                             AssignmentNumber = "1",
                             CourseFKId = 111,
-                            IsOpen = true,
                             TeacherFKId = "654321"
                         },
                         new
@@ -64,16 +62,6 @@ namespace OnlineHelpSystem.Migrations
                             AssignmentName = "DAB handin 2",
                             AssignmentNumber = "2",
                             CourseFKId = 111,
-                            IsOpen = true,
-                            TeacherFKId = "654321"
-                        },
-                        new
-                        {
-                            AssignmentId = 23,
-                            AssignmentName = "DAB handin 3",
-                            AssignmentNumber = "3",
-                            CourseFKId = 111,
-                            IsOpen = true,
                             TeacherFKId = "654321"
                         });
                 });
@@ -149,7 +137,7 @@ namespace OnlineHelpSystem.Migrations
                             ExerciseId = 1,
                             CourseFKId = 111,
                             HelpWhere = "bord 3",
-                            IsOpen = true,
+                            IsOpen = false,
                             Lecture = "1",
                             Number = 1,
                             StudentFKId = "3",
@@ -160,7 +148,7 @@ namespace OnlineHelpSystem.Migrations
                             ExerciseId = 2,
                             CourseFKId = 111,
                             HelpWhere = "bord 5",
-                            IsOpen = true,
+                            IsOpen = false,
                             Lecture = "2",
                             Number = 1,
                             StudentFKId = "2",
@@ -171,7 +159,7 @@ namespace OnlineHelpSystem.Migrations
                             ExerciseId = 3,
                             CourseFKId = 222,
                             HelpWhere = "bord 19",
-                            IsOpen = true,
+                            IsOpen = false,
                             Lecture = "3",
                             Number = 1,
                             StudentFKId = "1",
@@ -182,7 +170,7 @@ namespace OnlineHelpSystem.Migrations
                             ExerciseId = 4,
                             CourseFKId = 222,
                             HelpWhere = "bord 7",
-                            IsOpen = true,
+                            IsOpen = false,
                             Lecture = "4",
                             Number = 1,
                             StudentFKId = "2",
@@ -193,7 +181,7 @@ namespace OnlineHelpSystem.Migrations
                             ExerciseId = 5,
                             CourseFKId = 222,
                             HelpWhere = "bord 7",
-                            IsOpen = true,
+                            IsOpen = false,
                             Lecture = "5",
                             Number = 1,
                             StudentFKId = "3",
@@ -238,6 +226,9 @@ namespace OnlineHelpSystem.Migrations
 
                     b.Property<int>("AssignmentFKId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsOpen")
+                        .HasColumnType("bit");
 
                     b.Property<int>("StudentAssignmentId")
                         .HasColumnType("int");

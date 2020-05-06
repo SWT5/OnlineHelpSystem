@@ -12,6 +12,9 @@ namespace OnlineHelpSystem.Models
         public int AssignmentId { get; set; }
         public string TeacherFKId { get; set; }
         public int CourseFKId { get; set; }
+        public bool IsOpen { get; set; }
+
+
         //relations
         public Course Course { get; set; }
         public Teacher Teacher { get; set; }
@@ -19,7 +22,7 @@ namespace OnlineHelpSystem.Models
 
         public override string ToString()
         {
-            return $"[Assignment Name: {AssignmentName}, Assignment Number: {AssignmentNumber}, Assigment Id: {AssignmentId}]";
+            return $"[Assignment Name: {AssignmentName}, Assignment Number: {AssignmentNumber}, Assigment Id: {AssignmentId}], Reqeust isOpen: {IsOpen}";
         }
     }
 }

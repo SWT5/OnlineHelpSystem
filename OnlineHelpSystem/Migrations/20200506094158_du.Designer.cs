@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineHelpSystem.Data;
 
 namespace OnlineHelpSystem.Migrations
 {
     [DbContext(typeof(myDBContext))]
-    partial class myDBContextModelSnapshot : ModelSnapshot
+    [Migration("20200506094158_du")]
+    partial class du
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
